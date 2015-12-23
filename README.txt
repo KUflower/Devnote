@@ -1,1 +1,1 @@
-Sunghyo Chung
+Sunghyo
