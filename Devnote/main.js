@@ -23,7 +23,7 @@ app.on('ready', function() {
   mainWindow = new BrowserWindow({width: 800, height: 600});
 
   // and load the index.html of the app.
-  mainWindow.loadURL('file://' + __dirname +'/html/mail/main.html');
+  mainWindow.loadURL('file://' + __dirname +'/html/mail/index.html');
   // '/html/mail/inbox.html'
 
   // Open the DevTools.
