@@ -1,5 +1,4 @@
 #DevNote
----
 일반적으로 코드를 작성하면서 겪는 어려움을 해결하는 노트이다.
 
 기존의 에디터들(Sublime)은 주석의 가독성이 적어 노트와 코드를 분리해야 하는 어려움이 있었고, 노트(Evernote)들은 코드 작성 시 Syntax highlighting이 되지 않아 코드를 읽고 작성하는 데에 불편함이 있었다.
@@ -17,7 +16,6 @@
 주석 기능을 하는 메모와 코드를 분리하여 한 눈에 코드를 확인한다. 추출 된 코드는 로컬이나 구글드라이브로 바로 저장할 수 있다.
 
 ##개발
----
 ###Electron(http://electron.atom.io/)을 통해
 UI를 만들고 ~
 
@@ -26,11 +24,9 @@ https://github.com/KUflower/Devnote.git
 
 
 ##Reference
----
 참조한 Open Source 기재
 
 ##향후 계획
----
 추후 계정 설정 및 공유가 가능하도록 만들 계획이다.
 
 ##Quick Start
