@@ -34,7 +34,7 @@ License: Apache 2.0
 >Copyright (c) 2012 Vadim Kiryukhin ( vkiryukhin @ gmail.com )
 License: Dual licensed under the MIT (see below) and GPL licenses
 
-##Youtube Demo
+##Demo Video
 [link here](https://www.youtube.com/watch?v=JLf9q36UsBk)
 https://www.youtube.com/watch?v=JLf9q36UsBk
 
@@ -44,7 +44,6 @@ https://www.youtube.com/watch?v=JLf9q36UsBk
 ##시작 하기
 Clone and run the code in this tutorial by using the [`KUflower/Devnote`](https://github.com/KUflower/Devnote)
 repository.
-
 **Note**: Running this requires [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which includes [npm](https://npmjs.org)) on your system.
 
 ```bash
@@ -55,3 +54,6 @@ $ cd Devnote/Devnote
 # Install dependencies and run the app
 $ npm install && npm start
 ```
+
+##License
+The source code is licensed under GPL v3. License is available [here](https://github.com/KUflower/Devnote/blob/master/LICENSE).
