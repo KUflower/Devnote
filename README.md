@@ -38,6 +38,14 @@ DevNote는 [`Electron`](https://github.com/atom/electron) 프레임 워크를 �
 >Copyright (c) 2015 GitHub Inc.
 License: MIT
 
+**[inspinia](http://support.wrapbootstrap.com/knowledge_base/topics/usage-licenses)**
+>License: 
+If the item was created using materials which are the subject of a GNU General Public License (GPL), your use of the item is subject to the terms of the GPL in place of the foregoing conditions (to the extent the GPL applies).
+
+**[jquery](https://github.com/jquery/jquery)**
+>Copyright (c) 2016 jQuery Foundation
+License: MIT
+
 **[marked](https://github.com/chjj/marked)**
 >Copyright (c) 2011-2014, Christopher Jeffrey.
 License: MIT
