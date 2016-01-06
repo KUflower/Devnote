@@ -32,13 +32,13 @@ Sublime Text와 같은 에디터와 같이 코드 Syntax highlighting을 주어 
 plain text 기반이기 때문에 검색과 git을 사용하는데 문제가 없다. 
 
 ##UI
-####노트
+####1.노트
 <img src="ui/a.main.png" width="500" />
 ---
-####문서 편집
+####2.문서 편집
 <img src="ui/c.doc.png" width="500" />
 ---
-####소스코드 편집
+####3.소스코드 편집
 <img src="ui/e.code2.png" width="500" />
 
 ##개발
