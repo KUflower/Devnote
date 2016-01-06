@@ -1,4 +1,4 @@
-#DevNote !<img src="ui/app_icon256.png" width="100">
+#DevNote <img src="ui/app_icon256.png" width="80" />
 
 DevNote는 마크다운 문서와 파일(.c, .java ...)을 합친 새로운 형태의 에디터이다.
 
@@ -30,6 +30,16 @@ Sublime Text와 같은 에디터와 같이 코드 Syntax highlighting을 주어 
 
 4. 검색/Git
 plain text 기반이기 때문에 검색과 git을 사용하는데 문제가 없다. 
+
+##UI
+####노트
+<img src="ui/a.main.png" width="500" />
+---
+####문서 편집
+<img src="ui/c.doc.png" width="500" />
+---
+####소스코드 편집
+<img src="ui/e.code2.png" width="500" />
 
 ##개발
 DevNote는 [`Electron`](https://github.com/atom/electron) 프레임 워크를 사용하여 크로스 플랫폼 데스크탑 어플리케이션을 개발 하였다. 그 외에도 아래의 오픈소스들을 이용하였다.
