@@ -41,6 +41,12 @@ plain text 기반이기 때문에 검색과 git을 사용하는데 문제가 없
 ####3.소스코드 편집
 <img src="ui/e.code2.png" width="500" />
 
+##시연 영상
+[link here](https://youtu.be/uARtQyFyqEM)
+```
+https://youtu.be/uARtQyFyqEM
+```
+
 ##개발
 DevNote는 [`Electron`](https://github.com/atom/electron) 프레임 워크를 사용하여 크로스 플랫폼 데스크탑 어플리케이션을 개발 하였다. 그 외에도 아래의 오픈소스들을 이용하였다.
 
@@ -68,10 +74,6 @@ License: Apache 2.0
 **[vkBeautify](http://www.eslinstructor.net/vkbeautify/)**
 >Copyright (c) 2012 Vadim Kiryukhin ( vkiryukhin @ gmail.com )
 License: Dual licensed under the MIT (see below) and GPL licenses
-
-##Demo Video
-[link here](https://www.youtube.com/watch?v=JLf9q36UsBk)
-https://www.youtube.com/watch?v=JLf9q36UsBk
 
 ##향후 계획
 추후 계정 설정 및 공유가 가능하도록 만들 계획이다.
