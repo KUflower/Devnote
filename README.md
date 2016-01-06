@@ -1,4 +1,4 @@
-#DevNote ![app\_icon256.png](./ui/app_icon256.png){:.some-css-class width="100"}
+#DevNote !<img src="ui/app_icon256.png" width="100">
 
 DevNote는 마크다운 문서와 파일(.c, .java ...)을 합친 새로운 형태의 에디터이다.
 
