@@ -61,7 +61,7 @@
 						</li>
 						<li class="dropdown hidden-xs">
 							<a href="javascript:void(0);" class="btn btn-icon-toggle btn-default" data-toggle="dropdown">
-								<i class="fa fa-bell"></i><sup class="badge style-danger">4</sup>
+								<i class="fa fa-bell"></i><sup class="badge style-danger"></sup>
 							</a>
 							<ul class="dropdown-menu animation-expand">
 								<li class="dropdown-header">Today's messages</li>
@@ -173,7 +173,7 @@
 						<div class="row">
 
 							<!-- BEGIN INBOX NAV -->
-							<div class="col-sm-4 col-md-2 col-lg-5">
+							<div class="col-sm-4 col-md-2 col-lg-2">
 								<form class="navbar-search margin-bottom-xxl" role="search">
 									<div class="form-group">
 										<input type="text" class="form-control" name="contactSearch" placeholder="Enter your keyword">
@@ -249,31 +249,29 @@
 									</div><!--end .col -->
 									<!-- END INBOX EMAIL LIST -->
 
+
 									<!-- BEGIN MAIL REPLY -->
 									<div class="col-md-8 col-lg-8">
-										<h3>Reply</h3>
+
+										<!-- BEGIN TOGGLE BUTTON GROUPS -->
+									<div class="row" align="center">
+										<div class="btn-group" data-toggle="buttons">
+											<label class="btn ink-reaction btn-primary">
+												<input type="radio" name="options" id="option1"><i class="md md-assignment"></i> 문서
+											</label>
+											<label class="btn ink-reaction btn-primary">
+												<input type="radio" name="options" id="option3"><i class="md md-dvr"></i> 코드
+											</label>
+										</div><!--end .btn-group -->
+									</div><!--end .row -->
+									<!-- END TOGGLE BUTTON GROUPS -->
+						
+
 										<form class="form" id="formCompose">
-											<div class="form-group floating-label">
-												<input type="email" class="form-control" id="to1" name="to1" value="alicia.spinnet@mountainresort.com">
-												<label for="to1">To</label>
-												<a class="link-default pull-right" href="#emailOptions" data-toggle="collapse">More</a>
-											</div><!--end .form-group -->
-											<div id="emailOptions" class="collapse">
-												<div class="form-group floating-label">
-													<input type="email" class="form-control" id="cc1" name="cc1" >
-													<label for="cc1">CC</label>
-												</div><!--end .form-group -->
-												<div class="form-group floating-label">
-													<input type="email" class="form-control" id="bcc1" name="bcc1" >
-													<label for="bcc1">BCC</label>
-												</div><!--end .form-group -->
-											</div><!--end #emailOptions -->
-											<div class="form-group floating-label">
-												<input type="text" class="form-control" id="Subject1" name="Subject1"  value="Re: Reaching the top">
-												<label for="Subject1">Subject</label>
-											</div><!--end .form-group -->
+
 											<div class="form-group">
-												<textarea id="simple-summernote" name="message" class="form-control control-10-rows" placeholder="Enter message ..." spellcheck="false">
+												<textarea id="simple-summernote" name="message" class="form-control control-10-rows" placeholder="Enter message ..." spellcheck="false" style="min-height: 500px;">
+													<!-- content -->
 													<br/><br/>
 													<hr/>
 													<p>
@@ -282,13 +280,14 @@
 														<strong>To:</strong> Daniel johnson
 													</p>
 													<p>
-														We are already halfway there. There are still some obstacles that we must take, but I do not expect any problems. Dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+														We are already halfway there. There are still some obstacles that we must take, but I do not expect any problems. Dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.We are already halfway there. There are still some obstacles that we must take, but I do not expect any problems. Dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 													</p>
+													<!-- end content -->
 												</textarea>
 											</div><!--end .form-group -->
 										</form>
 									</div><!--end .col -->
-
+						
 									<!-- BEGIN MAIL REPLY -->
 								</div><!--end .row -->
 							</div><!--end .col -->
