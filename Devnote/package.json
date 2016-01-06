@@ -1,7 +1,7 @@
 {
-  "name": "electron-quick-start",
+  "name": "Devnote",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "note for developer",
   "main": "main.js",
   "scripts": {
     "start": "electron main.js"
