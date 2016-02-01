@@ -16,6 +16,7 @@
 		<link type="text/css" rel="stylesheet" href="../../assets/css/theme-1/materialadmin.css?1425466319" />
 		<link type="text/css" rel="stylesheet" href="../../assets/css/theme-1/font-awesome.min.css?1422529194" />
 		<link type="text/css" rel="stylesheet" href="../../assets/css/theme-1/material-design-iconic-font.min.css?1421434286" />
+		<link type="text/css" rel="stylesheet" href="../../assets/css/theme-1/libs/summernote/summernote.css?1425218701" />
 		<!-- END STYLESHEETS -->
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -167,6 +168,10 @@
 					<div class="section-body">
 						<div class="row">
 
+							<!-- BEGIN INBOX -->
+					<div class="section-body">
+						<div class="row">
+
 							<!-- BEGIN INBOX NAV -->
 							<div class="col-sm-4 col-md-2 col-lg-2">
 								<form class="navbar-search margin-bottom-xxl" role="search">
@@ -191,23 +196,22 @@
 							<!-- END INBOX NAV -->
 
 							<div class="col-sm-8 col-md-10 col-lg-10">
-								<div class="text-divider visible-xs"><span>Email list</span></div>
 								<div class="row">
 
 									<!-- BEGIN INBOX EMAIL LIST -->
 									<div class="col-md-4 col-lg-4 height-6 scroll-sm">
 										<div class="list-group list-email list-gray">
-											<a href="../../html/mail/edit.html" class="list-group-item">
+											<a href="../../html/mail/reply.html" class="list-group-item focus">
 												<h5>Notebook</h5>
 												<h4>Title</h4>
 												<p class="hidden-xs hidden-sm">
-												summary
+                          Summary
 												</p>
 												<div class="stick-top-right small-padding text-default-light text-sm">12:46 am</div>
 											</a>
-											<a href="../../html/mail/inbox.html" class="list-group-item focus">
+											<a href="../../html/mail/inbox.html" class="list-group-item">
 												<div class="stick-top-left small-padding"><i class="fa fa-dot-circle-o text-info"></i></div>
-												<h5>NoteBook</h5>
+												<h5>Notebook</h5>
 												<h4>Title</h4>
 												<div class="stick-top-right small-padding text-default-light text-sm">08:12 am</div>
 												<p class="hidden-xs hidden-sm">Summary</p>
@@ -216,26 +220,61 @@
 									</div><!--end .col -->
 									<!-- END INBOX EMAIL LIST -->
 
-									<!-- BEGIN EMAIL CONTENT -->
+
+									<!-- BEGIN MAIL REPLY -->
 									<div class="col-md-8 col-lg-8">
-										<div class="text-divider hidden-md hidden-lg"><span>Email</span></div>
-										<h1 class="no-margin">Title</h1>
-										<div class="btn-group stick-top-right">
-											<a href="../../html/mail/reply.html" class="btn btn-icon-toggle btn-default"><i class="md md-delete"></i></a>
-											<a href="../../html/mail/reply.html" class="btn btn-icon-toggle btn-default"><i class="md md-reply"></i></a>
-											<a href="../../html/mail/reply.html" class="btn btn-icon-toggle btn-default"><i class="md md-reply-all"></i></a>
-											<a href="../../html/mail/reply.html" class="btn btn-icon-toggle btn-default"><i class="md md-forward"></i></a>
-										</div>
-										<span class="pull-right text-default-light">Today, 08:12 am</span>
-										<strong>Notebook</strong>
-										<hr/>
-										<p>content<br>
-										<br>
-										<br>
 
+										<!-- BEGIN TOGGLE BUTTON GROUPS -->
+									<div class="row" align="center">
+										<a href="../../html/mail/edit.html">
+										<button type="button" class="btn ink-reaction btn-raised btn-primary"><i class="md md-assignment"></i> 문서</button></a>
+
+										<a href="../../html/mail/edit_code.html">
+										<button type="button" class="btn ink-reaction btn-raised btn-primary"><i class="md md-dvr"></i> 코드</button></a>
+									</div><!--end .row -->
+									<!-- END TOGGLE BUTTON GROUPS -->
+
+
+										<form class="form" id="formCompose">
+
+											<div class="form-group">
+												<textarea id="simple-summernote" name="message" class="form-control control-10-rows" placeholder="Enter message ..." spellcheck="false" style="min-height: 500px;">
+													<!-- content -->
+
+													<p>
+
+<head>
+  <!-- common.css -->
+  <style>* {-webkit-tap-highlight-color: rgba(0,0,0,0);}html {-webkit-text-size-adjust: none;}body {font-family: Arial, Helvetica, sans-serif;margin: 0;color: #333;word-wrap: break-word;}h1, h2, h3, h4, h5, h6 {line-height: 1.1;}img {max-width: 100% !important;}blockquote {margin: 0;padding: 0 15px;color: #777;border-left: 4px solid #ddd;}hr {background-color: #ddd;border: 0;height: 1px;margin: 15px 0;}code {font-family: Menlo, Consolas, 'Ubuntu Mono', Monaco, 'source-code-pro', monospace;line-height: 1.4;margin: 0;padding: 0.2em 0;font-size: 85%;background-color: rgba(0,0,0,0.04);border-radius: 3px;}pre {margin: 0;}pre > code {margin: 0;padding: 0;font-size: 100%;word-break: normal;background: transparent;border: 0;}ol {list-style-type: decimal;}ol ol, ul ol {list-style-type: lower-latin;}ol ol ol, ul ol ol, ul ul ol, ol ul ol {list-style-type: lower-roman;}table {border-spacing: 0;border-collapse: collapse;margin-top: 0;margin-bottom: 16px;}table th {font-weight: bold;}table th, table td {padding: 6px 13px;border: 1px solid #ddd;}table tr {border-top: 1px solid #ccc;}table tr:nth-child(even) {background-color: #f8f8f8;}input[type="checkbox"] {cursor: default;margin-right: 0.5em;font-size: 13px;}.task-list-item {list-style-type: none;}.task-list-item+.task-list-item {margin-top: 3px;}.task-list-item input {float: left;margin: 0.3em 1em 0.25em -1.6em;vertical-align: middle;}#tag-field {margin: 8px 2px 10px;}#tag-field .tag {display: inline-block;background: #cadff3;border-radius: 4px;padding: 1px 8px;color: black;font-size: 12px;margin-right: 10px;line-height: 1.4;}</style>
+  <!-- ace-static.css -->
+  <style>.ace_static_highlight {white-space: pre-wrap;}.ace_static_highlight .ace_gutter {width: 2em;text-align: right;padding: 0 3px 0 0;margin-right: 3px;}.ace_static_highlight.ace_show_gutter .ace_line {padding-left: 2.6em;}.ace_static_highlight .ace_line {position: relative;}.ace_static_highlight .ace_gutter-cell {-moz-user-select: -moz-none;-khtml-user-select: none;-webkit-user-select: none;user-select: none;top: 0;bottom: 0;left: 0;position: absolute;}.ace_static_highlight .ace_gutter-cell:before {content: counter(ace_line, decimal);counter-increment: ace_line;}.ace_static_highlight {counter-reset: ace_line;}</style>
+  <style>.ace-chrome .ace_gutter {background: #ebebeb;color: #333;overflow : hidden;}.ace-chrome .ace_print-margin {width: 1px;background: #e8e8e8;}.ace-chrome {background-color: #FFFFFF;color: black;}.ace-chrome .ace_cursor {color: black;}.ace-chrome .ace_invisible {color: rgb(191, 191, 191);}.ace-chrome .ace_constant.ace_buildin {color: rgb(88, 72, 246);}.ace-chrome .ace_constant.ace_language {color: rgb(88, 92, 246);}.ace-chrome .ace_constant.ace_library {color: rgb(6, 150, 14);}.ace-chrome .ace_invalid {background-color: rgb(153, 0, 0);color: white;}.ace-chrome .ace_fold {}.ace-chrome .ace_support.ace_function {color: rgb(60, 76, 114);}.ace-chrome .ace_support.ace_constant {color: rgb(6, 150, 14);}.ace-chrome .ace_support.ace_type,.ace-chrome .ace_support.ace_class.ace-chrome .ace_support.ace_other {color: rgb(109, 121, 222);}.ace-chrome .ace_variable.ace_parameter {font-style:italic;color:#FD971F;}.ace-chrome .ace_keyword.ace_operator {color: rgb(104, 118, 135);}.ace-chrome .ace_comment {color: #236e24;}.ace-chrome .ace_comment.ace_doc {color: #236e24;}.ace-chrome .ace_comment.ace_doc.ace_tag {color: #236e24;}.ace-chrome .ace_constant.ace_numeric {color: rgb(0, 0, 205);}.ace-chrome .ace_variable {color: rgb(49, 132, 149);}.ace-chrome .ace_xml-pe {color: rgb(104, 104, 91);}.ace-chrome .ace_entity.ace_name.ace_function {color: #0000A2;}.ace-chrome .ace_heading {color: rgb(12, 7, 255);}.ace-chrome .ace_list {color:rgb(185, 6, 144);}.ace-chrome .ace_marker-layer .ace_selection {background: rgb(181, 213, 255);}.ace-chrome .ace_marker-layer .ace_step {background: rgb(252, 255, 0);}.ace-chrome .ace_marker-layer .ace_stack {background: rgb(164, 229, 101);}.ace-chrome .ace_marker-layer .ace_bracket {margin: -1px 0 0 -1px;border: 1px solid rgb(192, 192, 192);}.ace-chrome .ace_marker-layer .ace_active-line {background: rgba(0, 0, 0, 0.07);}.ace-chrome .ace_gutter-active-line {background-color : #dcdcdc;}.ace-chrome .ace_marker-layer .ace_selected-word {background: rgb(250, 250, 255);border: 1px solid rgb(200, 200, 250);}.ace-chrome .ace_storage,.ace-chrome .ace_keyword,.ace-chrome .ace_meta.ace_tag {color: rgb(147, 15, 128);}.ace-chrome .ace_string.ace_regex {color: rgb(255, 0, 0)}.ace-chrome .ace_string {color: #1A1AA6;}.ace-chrome .ace_entity.ace_other.ace_attribute-name {color: #994409;}.ace-chrome .ace_indent-guide {background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAE0lEQVQImWP4////f4bLly//BwAmVgd1/w11/gAAAABJRU5ErkJggg==") right repeat-y;}</style>
+  <!-- export.css -->
+
+  <!-- User CSS -->
+  <style> .text-cell {font-size: 15px;}.code-cell {font-size: 12px;}.markdown-cell {font-size: 15px;}.latex-cell {font-size: 15px;}</style>
+</head>
+<body>
+
+  <div id="titlearea">
+    <h2>Edit</h2>
+  </div>
+  <div id="contentarea">
+    <div class="cell markdown-cell">
+      content
+    </div>
+  </div>
+  <script></script>
+</body>
+
+													</p>
+													<!-- end content -->
+												</textarea>
+											</div><!--end .form-group -->
+										</form>
 									</div><!--end .col -->
-									<!-- END EMAIL CONTENT -->
 
+									<!-- BEGIN MAIL REPLY -->
 								</div><!--end .row -->
 							</div><!--end .col -->
 						</div><!--end .row -->
@@ -245,25 +284,17 @@
 					<!-- BEGIN SECTION ACTION -->
 					<div class="section-action style-primary">
 						<div class="section-action-row">
-							<a class="btn ink-reaction btn-icon-toggle" data-toggle="tooltip" data-placement="top" data-original-title="Delete mail">
-								<span class="glyphicon glyphicon-trash"></span>
-							</a>
-							<a class="btn ink-reaction btn-icon-toggle" href="../../html/mail/reply.html" data-toggle="tooltip" data-placement="top" data-original-title="Reply to this mail">
-								<i class="fa fa-reply"></i>
-							</a>
+							<a class="btn ink-reaction btn-icon-toggle" href="../../html/mail/inbox.html"><i class="fa fa-chevron-left"></i></a>
 						</div>
 						<div class="section-floating-action-row">
-							<a class="btn ink-reaction btn-floating-action btn-lg btn-accent" href="../../html/mail/reply.html" data-toggle="tooltip" data-placement="top" data-original-title="Add note">
-								<i class="md md-add"></i>
-							</a>
+							<a class="btn ink-reaction btn-floating-action btn-lg btn-accent" href="../../html/mail/inbox.html"><i class="md md-done"></i></a>
 						</div>
-					</div><!--end .section-action -->
+					</div>
 					<!-- END SECTION ACTION -->
 
 				</section>
 			</div><!--end #content-->
 			<!-- END CONTENT -->
-
 
 			<!-- BEGIN MENUBAR-->
 			<div id="menubar" class="menubar-inverse ">
@@ -624,13 +655,15 @@
 		<script>
   			window.jQuery = window.$ = require('jquery');
 		</script>
-
 		<script src="../../assets/js/libs/jquery/jquery-1.11.2.min.js"></script>
 		<script src="../../assets/js/libs/jquery/jquery-migrate-1.2.1.min.js"></script>
 		<script src="../../assets/js/libs/bootstrap/bootstrap.min.js"></script>
 		<script src="../../assets/js/libs/spin.js/spin.min.js"></script>
 		<script src="../../assets/js/libs/autosize/jquery.autosize.min.js"></script>
 		<script src="../../assets/js/libs/nanoscroller/jquery.nanoscroller.min.js"></script>
+		<script src="../../assets/js/libs/ckeditor/ckeditor.js"></script>
+		<script src="../../assets/js/libs/ckeditor/adapters/jquery.js"></script>
+		<script src="../../assets/js/libs/summernote/summernote.min.js"></script>
 		<script src="../../assets/js/core/source/App.js"></script>
 		<script src="../../assets/js/core/source/AppNavigation.js"></script>
 		<script src="../../assets/js/core/source/AppOffcanvas.js"></script>
@@ -639,6 +672,7 @@
 		<script src="../../assets/js/core/source/AppNavSearch.js"></script>
 		<script src="../../assets/js/core/source/AppVendor.js"></script>
 		<script src="../../assets/js/core/demo/Demo.js"></script>
+		<script src="../../assets/js/core/demo/DemoFormEditors.js"></script>
 		<!-- END JAVASCRIPT -->
 
 	</body>
