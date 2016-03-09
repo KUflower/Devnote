@@ -66,8 +66,9 @@
       color: #444;
       font-family:Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
       font-size: 16px;
-      line-height: 1.5em
+      line-height: 1.5em;
     }
+
 
     #menu {
       display: none;
@@ -76,7 +77,7 @@
       border-radius: 5px;
       top: 50%;
       left: 50%;
-      width: 250px;
+      width: 350px;
       height: 150px;
       margin-top: -75px;
       margin-left: -125px;
@@ -236,21 +237,27 @@ Basic useful feature list:
 
       <span>HTML</span>
     </div>
+    <div id="saveas-code">
+      <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
+        <g transform="scale(0.0625) translate(64,0)">
+          <path d="M608 192l-96 96 224 224L512 736l96 96 288-320L608 192zM288 192L0 512l288 320 96-96L160 512l224-224L288 192z" />
+        </g>
+      </svg>
+
+      <span>CODE</span>
+    </div>
     <a id="close-menu">&times;</a>
   </div>
   <script type="text/javascript">
     var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
     navigator.saveBlob = navigator.saveBlob || navigator.msSaveBlob || navigator.mozSaveBlob || navigator.webkitSaveBlob;
     window.saveAs = window.saveAs || window.webkitSaveAs || window.mozSaveAs || window.msSaveAs;
-
     // Because highlight.js is a bit awkward at times
     var languageOverrides = {
       js: 'javascript',
       html: 'xml'
     };
-
     emojify.setConfig({ img_dir: 'emoji' });
-
     var md = markdownit({
       html: true,
       highlight: function(code, lang){
@@ -264,33 +271,24 @@ Basic useful feature list:
       }
     })
       .use(markdownitFootnote);
-
-
     var hashto;
-
     function update(e){
       setOutput(e.getValue());
-
       clearTimeout(hashto);
       hashto = setTimeout(updateHash, 1000);
     }
-
     function setOutput(val){
       val = val.replace(/<equation>((.*?\n)*?.*?)<\/equation>/ig, function(a, b){
         return '<img src="http://latex.codecogs.com/png.latex?' + encodeURIComponent(b) + '" />';
       });
-
       var out = document.getElementById('out');
       var old = out.cloneNode(true);
       out.innerHTML = md.render(val);
       emojify.run(out);
-
       var allold = old.getElementsByTagName("*");
       if (allold === undefined) return;
-
       var allnew = out.getElementsByTagName("*");
       if (allnew === undefined) return;
-
       for (var i = 0, max = Math.min(allold.length, allnew.length); i < max; i++) {
         if (!allold[i].isEqualNode(allnew[i])) {
           out.scrollTop = allnew[i].offsetTop;
@@ -298,7 +296,6 @@ Basic useful feature list:
         }
       }
     }
-
     var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
       mode: 'gfm',
       lineNumbers: false,
@@ -307,47 +304,60 @@ Basic useful feature list:
       theme: 'base16-light',
       extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList"}
     });
-
     editor.on('change', update);
-
-
-
-
-
     document.addEventListener('drop', function(e){
       e.preventDefault();
       e.stopPropagation();
-
       var reader = new FileReader();
       reader.onload = function(e){
         editor.setValue(e.target.result);
       };
-
       reader.readAsText(e.dataTransfer.files[0]);
     }, false);
-
-
-
-
-
     function saveAsMarkdown(){
+/*
+      var s = editor.getValue(); // even for comment, odd for code
+      var c = s.split("```");
+      var code ="";
+      var comment = "";
+      var i;
+      for(i=0; i<c.length ;i= i+2){
+        comment += c[i];
+      }
+      for(i=1; i<c.length ;i= i+2){
+        code += "```" + c[i] + "```";
+      }
+      save(comment + code, "untitled.md");
+      */
       save(editor.getValue(), "untitled.md");
     }
-
+    function saveAsCode(){
+      var c = editor.getValue().split("```");// even for comment, odd for code
+      var s = "";
+      var i;
+      for(i=0; i<c.length ;i= i+2){
+        c[i] =  "\n/*" + c[i] + "*/\n"; //make comment
+      }
+      for(i=0; i<c.length ; i++){
+        s += c[i];
+      }
+      save(s, "code.txt");
+    }
     function saveAsHtml() {
       save(document.getElementById('out').innerHTML, "untitled.html");
     }
-
     document.getElementById('saveas-markdown').addEventListener('click', function() {
       saveAsMarkdown();
       hideMenu();
     });
-
     document.getElementById('saveas-html').addEventListener('click', function() {
       saveAsHtml();
       hideMenu();
     });
-
+    document.getElementById('saveas-code').addEventListener('click', function() {
+      saveAsCode();
+      hideMenu();
+    });
     function save(code, name){
       var blob = new Blob([code], { type: 'text/plain' });
       if(window.saveAs){
@@ -364,45 +374,31 @@ Basic useful feature list:
         link.dispatchEvent(event);
       }
     }
-
-
-
     var menuVisible = false;
     var menu = document.getElementById('menu');
-
     function showMenu() {
       menuVisible = true;
       menu.style.display = 'block';
     }
-
     function hideMenu() {
       menuVisible = false;
       menu.style.display = 'none';
     }
-
     document.getElementById('close-menu').addEventListener('click', function(){
       hideMenu();
     });
-
-
-
-
     document.addEventListener('keydown', function(e){
       if(e.keyCode == 83 && (e.ctrlKey || e.metaKey)){
         e.shiftKey ? showMenu() : saveAsMarkdown();
-
         e.preventDefault();
         return false;
       }
-
-      if(e.keyCode === 27 && menuVisible){
+      if(e.keyCode == 27 && menuVisible){
         hideMenu();
-
         e.preventDefault();
         return false;
       }
     });
-
     function updateHash(){
       window.location.hash = btoa( // base64 so url-safe
         RawDeflate.deflate( // gzip
@@ -412,7 +408,6 @@ Basic useful feature list:
         )
       );
     }
-
     if(window.location.hash){
       var h = window.location.hash.replace(/^#/, '');
       if(h.slice(0,5) == 'view:'){
