@@ -236,6 +236,7 @@
 								version:'1.0'
 								};
 
+								// 파일 이름에 Time stamp
 								var dt = new Date();
 								var utcDate = dt.toUTCString();
 								if (!Date.now) {
@@ -245,7 +246,7 @@
 								myData["time"] = utcDate;
 								myData["content"] = editor.getValue();
 
-								var outputFilename = __dirname + '/' + String(timestamp) + '.json';
+								var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
 
 								fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
 								if(err) {
