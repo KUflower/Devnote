@@ -168,7 +168,7 @@
 
 
 									<!--BEGIN Markdown editor -->
-									<iframe src="./markdown-editor.html" width = "100%" height="600" frameBorder="0"></iframe>
+									<iframe id='markdown-editor' src="./markdown-editor.html" width = "100%" height="600" frameBorder="0"></iframe>
 									<!--END Markdown editor -->
 
 									</div><!--end .col -->
@@ -198,7 +198,63 @@
 							<a class="btn ink-reaction btn-icon-toggle" href="#"><i class="fa fa-chevron-left"></i></a>
 						</div>
 						<div class="section-floating-action-row">
-							<a class="btn ink-reaction btn-floating-action btn-lg btn-accent" href="#"><i class="md md-done"></i></a>
+							<button class="btn ink-reaction btn-floating-action btn-lg btn-accent" href="#" onclick="button1_click();"><i class="md md-done"></i></button>
+							<script src="codemirror/lib/codemirror.js"></script>
+							<script src="codemirror/overlay.js"></script>
+							<script src="codemirror/xml/xml.js"></script>
+							<script src="codemirror/markdown/markdown.js"></script>
+							<script src="codemirror/gfm/gfm.js"></script>
+							<script src="codemirror/javascript/javascript.js"></script>
+							<script src="codemirror/css/css.js"></script>
+							<script src="codemirror/htmlmixed/htmlmixed.js"></script>
+							<script src="codemirror/lib/util/continuelist.js"></script>
+							<script src="rawinflate.js"></script>
+							<script src="rawdeflate.js"></script>
+							<script>
+
+							function button1_click() {
+								// var markdown_content = $('#markdown-editor').contents().find('code');
+								// console.log(markdown_content);
+								//get object from iframe
+
+								var editor = CodeMirror.fromTextArea(document.getElementById('markdown-editor').contentWindow.document.getElementById("code"), {
+							      mode: 'gfm',
+							      lineNumbers: false,
+							      matchBrackets: true,
+							      lineWrapping: true,
+							      theme: 'base16-light',
+							      extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList"}
+							    });
+								
+								// console.log(editor.getValue());
+
+								//file write
+								var fs = require('fs');
+
+								var myData = {
+								title:'untitled',
+								version:'1.0'
+								};
+
+								var dt = new Date();
+								var utcDate = dt.toUTCString();
+
+								myData["time"] = utcDate;
+								myData["content"] = editor.getValue();
+
+								var outputFilename = __dirname + '/note_saved.json';
+
+								fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
+								if(err) {
+								console.log(err);
+								} else {
+								console.log("JSON saved to " + outputFilename);
+								}
+								}); 
+
+							}
+							</script>
+
 						</div>
 					</div>
 					<!-- END SECTION ACTION -->
