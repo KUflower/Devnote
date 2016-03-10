@@ -33,9 +33,6 @@ app.on('ready', function() {
   mainWindow.loadURL('file://' + __dirname +'/html/mail/index.html');
   // '/html/mail/inbox.html'
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
-
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
     // Dereference the window object, usually you would store windows

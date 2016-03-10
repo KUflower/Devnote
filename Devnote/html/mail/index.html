@@ -135,9 +135,29 @@
 
 							<div class="col-sm-8 col-md-10 col-lg-10">
 								<div class="row">
-
 									<!-- BEGIN INBOX EMAIL LIST -->
 									<div class="col-md-4 col-lg-4 height-6 scroll-sm">
+
+									<!-- 폴더 추가 -->
+										<center>
+										<select>
+										<script>
+											var filesystem = require('fs');
+											var dir = __dirname+'/devfolder/';
+											console.log(dir);
+											filesystem.readdirSync(dir).forEach(function(file){
+												file = dir+'/'+file;
+												var stat = filesystem.statSync(file);
+												if (stat && stat.isDirectory()){
+													var filename = file.replace(/^.*[\\\/]/, '')
+													console.log(filename);
+													document.write("<option>"+filename+"</option>");
+												}
+											});
+										</script>
+										</select>
+										</center>
+										
 										<div class="list-group list-email list-gray">
 											<a href="../../html/mail/edit.html" class="list-group-item focus">
 												<h5>Notebook</h5>
