@@ -24,6 +24,24 @@
 		<script type="text/javascript" src="../../assets/js/libs/utils/html5shiv.js?1403934957"></script>
 		<script type="text/javascript" src="../../assets/js/libs/utils/respond.min.js?1403934956"></script>
 		<![endif]-->
+		<style>
+			#select-notebook{
+				color: rgba(49, 51, 53, 0.6);
+				font-size:10pt;
+			}
+			#select-language{
+				font-size:10pt;
+				color: rgba(49, 51, 53, 0.6);
+				float: right;
+			}
+			#note-title {
+				font-size: 10pt;
+			}
+			#note-func li{
+				padding:0px;
+				float:right;
+			}
+		</style>
 	</head>
 	<body class="menubar-hoverable header-fixed menubar-first full-content ">
 
@@ -58,16 +76,6 @@
 								</div>
 								<button type="submit" class="btn btn-icon-toggle ink-reaction"><i class="fa fa-search"></i></button>
 							</form>
-						</li>
-						<li>
-							<a href="../../html/mail/edit.html" class="btn btn-icon-toggle btn-default" >
-								<i class="md md-assignment"></i><sup class="badge style-danger"></sup>
-							</a>
-						</li>
-						<li>
-							<a href="../../html/mail/edit_code.html" class="btn btn-icon-toggle btn-default" >
-								<i class="md md-dvr"></i><sup class="badge style-danger"></sup>
-							</a>
 						</li>
 					</ul><!--end .header-nav-options -->
 					<ul class="header-nav header-nav-profile">
@@ -139,8 +147,8 @@
 									<div class="col-md-4 col-lg-4 height-6 scroll-sm">
 
 									<!-- 폴더 추가 -->
-										<center>
-										<select>
+									<div class="form-group"  >
+										<select id="select-notebook" class="form-control">
 										<script>
 											var filesystem = require('fs');
 											var dir = __dirname+'/devfolder/';
@@ -155,11 +163,12 @@
 												}
 											});
 										</script>
+										<option>모든 노트</option>
 										</select>
-										</center>
-										
+									</div>
+
 										<div class="list-group list-email list-gray">
-											<a href="../../html/mail/edit.html" class="list-group-item focus">
+											<a href="#" class="list-group-item focus">
 												<h5>Notebook</h5>
 												<h4>Title</h4>
 												<p class="hidden-xs hidden-sm">
@@ -167,7 +176,7 @@
 												</p>
 												<div class="stick-top-right small-padding text-default-light text-sm">12:46 am</div>
 											</a>
-											<a href="../../html/mail/index.html" class="list-group-item">
+											<a href="#" class="list-group-item">
 												<div class="stick-top-left small-padding"><i class="fa fa-dot-circle-o text-info"></i></div>
 												<h5>Notebook</h5>
 												<h4>Title</h4>
@@ -178,13 +187,59 @@
 									</div><!--end .col -->
 									<!-- END INBOX EMAIL LIST -->
 
+									<div class="col-sm-4">
+										<div class="form-group">
+											<input type="text" class="form-control" id="note-title" placeholder="제목 없음">
+										</div>
+									</div>
+
+									<div class="col-sm-4" >
+										<div class="form-group"  style="float:left; width:100px; padding-right:4px; margin:0px; ">
+											<select id="select-language" name="select-language" class="form-control" >
+												<option value="txt">Plain Text</option>
+												<option value="c">C</option>
+												<option value="cpp">C++</option>
+												<option value="java">Java</option>
+												<option value="js">JavaScript</option>
+											</select>
+										</div>
+										<ul class="header-nav header-nav-options" id="note-func">
+											<li>
+												<a class="btn btn-icon-toggle btn-default" title="">
+													<i class="md md-border-color"></i>
+												</a>
+											</li>
+											<li>
+												<a class="btn btn-icon-toggle btn-default" title="markdown" >
+													<i class="md md-assignment" id ="btn-markdown"></i><sup class="badge style-danger"></sup>
+												</a>
+											</li>
+											<li>
+												<a href="#" class="btn btn-icon-toggle btn-default" title="preview">
+													<i class="md md-dvr"></i><sup class="badge style-danger"></sup>
+												</a>
+											</li>
+											<li>
+												<a href="#" class="btn btn-icon-toggle btn-default" title="info">
+													<i class="md md-info-outline"></i>
+												</a>
+											</li>
+											<li>
+												<a href="#" class="btn btn-icon-toggle btn-default" title="download">
+													<i class="md md-publish"></i>
+												</a>
+											</li>
+											<li>
+												<a href="#" class="btn btn-icon-toggle btn-default" title="trash">
+													<i class="glyphicon glyphicon-trash"></i><sup class="badge style-danger"></sup>
+												</a>
+											</li>
+										</ul><!--end .header-nav-options -->
+									</div>
+
 
 									<!-- BEGIN MAIL REPLY -->
 									<div class="col-md-8 col-lg-8">
-
-									<div class="form-group">
-										<input type="text" class="form-control" id="regular1" placeholder="제목 없음">
-									</div>
 
 
 									<!--BEGIN Markdown editor -->
@@ -192,18 +247,6 @@
 									<!--END Markdown editor -->
 
 									</div><!--end .col -->
-									<!-- BEGIN TOGGLE BUTTON GROUPS -->
-									<div class="row" align="center">
-										<a href="../../html/mail/edit.html">
-										<button type="button" class="btn ink-reaction btn-raised btn-primary"><i class="md md-assignment"></i> 문서</button></a>
-
-										<a href="../../html/mail/edit_code.html">
-										<button type="button" class="btn ink-reaction btn-raised btn-primary"><i class="md md-dvr"></i> 코드</button></a>
-
-										<a href="../../html/mail/edit.html">
-										<button type="button" class="btn ink-reaction btn-raised btn-primary"><i class="md md-dvr"></i> 테스트</button></a>
-									</div><!--end .row -->
-									<!-- END TOGGLE BUTTON GROUPS -->
 
 									<!-- BEGIN MAIL REPLY -->
 								</div><!--end .row -->
@@ -245,7 +288,7 @@
 							      theme: 'base16-light',
 							      extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList"}
 							    });
-								
+
 								// console.log(editor.getValue());
 
 								//file write
@@ -274,7 +317,7 @@
 								} else {
 								console.log("JSON saved to " + outputFilename);
 								}
-								}); 
+								});
 
 							}
 							</script>
