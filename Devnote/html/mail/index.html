@@ -238,11 +238,14 @@
 
 								var dt = new Date();
 								var utcDate = dt.toUTCString();
-
+								if (!Date.now) {
+								    Date.now = function() { return new Date().getTime(); }
+								}
+								var timestamp = Math.floor(Date.now() / 1000);
 								myData["time"] = utcDate;
 								myData["content"] = editor.getValue();
 
-								var outputFilename = __dirname + '/note_saved.json';
+								var outputFilename = __dirname + '/' + String(timestamp) + '.json';
 
 								fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
 								if(err) {
@@ -279,7 +282,6 @@
 				</div>
 				<div class="menubar-scroll-panel">
 
-					<!-- BEGIN MAIN MENU -->
 					<ul id="main-menu" class="gui-controls">
 
 						<!-- BEGIN DASHBOARD -->

@@ -387,18 +387,18 @@ Basic useful feature list:
     document.getElementById('close-menu').addEventListener('click', function(){
       hideMenu();
     });
-    document.addEventListener('keydown', function(e){
-      if(e.keyCode == 83 && (e.ctrlKey || e.metaKey)){
-        e.shiftKey ? showMenu() : saveAsMarkdown();
-        e.preventDefault();
-        return false;
-      }
-      if(e.keyCode == 27 && menuVisible){
-        hideMenu();
-        e.preventDefault();
-        return false;
-      }
-    });
+    // document.addEventListener('keydown', function(e){
+    //   if(e.keyCode == 83 && (e.ctrlKey || e.metaKey)){
+    //     e.shiftKey ? showMenu() : saveAsMarkdown();
+    //     e.preventDefault();
+    //     return false;
+    //   }
+    //   if(e.keyCode == 27 && menuVisible){
+    //     hideMenu();
+    //     e.preventDefault();
+    //     return false;
+    //   }
+    // });
     function updateHash(){
       window.location.hash = btoa( // base64 so url-safe
         RawDeflate.deflate( // gzip
