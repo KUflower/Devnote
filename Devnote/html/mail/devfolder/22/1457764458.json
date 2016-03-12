@@ -1,0 +1,6 @@
+{
+    "title": "untitled",
+    "version": "1.0",
+    "time": "Sat, 12 Mar 2016 06:34:18 GMT",
+    "content": "\n    # (GitHub-Flavored) Markdown Editor\n\nBasic useful feature list:\n\n * Ctrl+S / Cmd+S to save the file\n * Ctrl+Shift+S / Cmd+Shift+S to choose to save as Markdown or HTML\n * Drag and drop a file into here to load it\n * File contents are saved in the URL so you can share files\n\n"
+}

@@ -202,12 +202,47 @@
 									<!-- BEGIN INBOX EMAIL LIST -->
 									<div class="col-md-4 col-lg-4 height-6 scroll-sm">
 
-
+										<div class="form-group"  >
+											<select id="select-notebook" class="form-control" onchange="showselected()">
+											<option>모든 노트</option>
+											<script>
+												var filesystem = require('fs');
+												var dir = __dirname+'/devfolder/';
+												filesystem.readdirSync(dir).forEach(function(file){
+													file = dir+'/'+file;
+													var stat = filesystem.statSync(file);
+													if (stat && stat.isDirectory()){
+														var filename = file.replace(/^.*[\\\/]/, '');
+														document.write("<option>"+filename+"</option>");
+													}
+												});
+												// 모든 노트일 때
+												var x = document.getElementById("select-notebook").value;
+												console.log(x);
+												if (x == "모든 노트"){
+													function defaultselection(){
+														window.onload=function(){
+															console.log('defaultselection');
+															document.getElementById("notelist").innerHTML = "";
+															document.getElementById("notelist").innerHTML += "<a href = '#' class='list-group-item'><h5>Notebook</h5><h4>Title</h4><p class='hidden-xs hidden-sm'></p><div class='stick-top-right small-padding text-default-light text-sm'>12:46am</div></a>";
+													}
+												}
+												defaultselection();
+											}
+										</script>
+										</select>
+									</div>
 										<div id = "notelist" class="list-group list-email list-gray">
 										<script>
 										function showselected() {
 											var x = document.getElementById("select-notebook").value;
 											if(x == "모든 노트") {
+												console.log(x);
+												function defaultselection(){
+													console.log('defaultselection');
+													document.getElementById("notelist").innerHTML = "";
+													document.getElementById("notelist").innerHTML += "<a href = '#' class='list-group-item'><h5>Notebook</h5><h4>Title</h4><p class='hidden-xs hidden-sm'></p><div class='stick-top-right small-padding text-default-light text-sm'>12:46am</div></a>";	
+												}
 												defaultselection();
 											}
 											else{
