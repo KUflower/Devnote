@@ -78,7 +78,7 @@
 							</form>
 						</li>
 					</ul><!--end .header-nav-options -->
-					
+
 				</div><!--end #header-navbar-collapse -->
 			</div>
 		</header>
@@ -251,8 +251,8 @@
 												</button>
 											</li>
 											<li>
-												<button class="btn btn-icon-toggle btn-default" id="btn-info" title="info">
-													<i class="md md-info-outline"></i>
+												<button class="btn btn-icon-toggle btn-default" id="btn-save" title="save">
+													<i class="md md-save"></i>
 												</button>
 											</li>
 											<li>
@@ -297,50 +297,7 @@
 							<a class="btn ink-reaction btn-icon-toggle" href="#"><i class="fa fa-chevron-left"></i></a>
 						</div>
 						<div class="section-floating-action-row">
-							<button class="btn ink-reaction btn-floating-action btn-lg btn-accent" href="#" onclick="button1_click();"><i class="md md-done"></i></button>
-							<script>
-							function button1_click() {
-								
-								var editor = document.getElementById("markdown-editor").contentWindow.editor;
-
-								console.log(editor.getValue());
-
-								//file write
-								var fs = require('fs');
-
-								var myData = {
-								version:'1.0'
-								};
-								
-								// 파일 이름에 Time stamp
-								var dt = new Date();
-								var utcDate = dt.toUTCString();
-								if (!Date.now) {
-								    Date.now = function() { return new Date().getTime(); }
-								}
-								var timestamp = Math.floor(Date.now() / 1000);
-								myData["title"] = document.getElementById('note-title').value;
-								myData["created_time"] = timestamp;
-								myData["updated_time"] = utcDate;
-								myData["type"] = document.getElementById('select-language').value;
-								myData["important"] = false;
-								myData["trash"] = false;
-								myData["content"] = editor.getValue();
-								
-
-								var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
-
-								fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
-								if(err) {
-								console.log(err);
-								} else {
-								console.log("JSON saved to " + outputFilename);
-								}
-								});
-
-							}
-							</script>
-
+							<button class="btn ink-reaction btn-floating-action btn-lg btn-accent" href="#" onclick="createNote();">+</button>
 						</div>
 					</div>
 					<!-- END SECTION ACTION -->
@@ -475,7 +432,90 @@
 		<script src="../../assets/js/core/source/AppVendor.js"></script>
 		<script src="../../assets/js/core/demo/Demo.js"></script>
 		<script src="../../assets/js/core/demo/DemoFormEditors.js"></script>
-		<!-- END JAVASCRIPT -->
+		<script>
+		function saveNote() {
+
+			var editor = document.getElementById("markdown-editor").contentWindow.editor;
+
+			console.log(editor.getValue());
+
+			//file write
+			var fs = require('fs');
+
+			var myData = {
+			version:'1.0'
+			};
+
+			// 파일 이름에 Time stamp
+			var dt = new Date();
+			var utcDate = dt.toUTCString();
+			if (!Date.now) {
+					Date.now = function() { return new Date().getTime(); }
+			}
+			var timestamp = Math.floor(Date.now() / 1000);
+			myData["title"] = document.getElementById('note-title').value;
+			myData["created_time"] = timestamp;
+			myData["updated_time"] = utcDate;
+			myData["type"] = document.getElementById('select-language').value;
+			myData["important"] = false;
+			myData["trash"] = false;
+			myData["content"] = editor.getValue();
+
+
+			var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
+
+			fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
+			if(err) {
+			console.log(err);
+			} else {
+			console.log("JSON saved to " + outputFilename);
+			}
+			});
+
+		}
+		</script>
+		<script>
+		function createNote() {
+
+			var editor = document.getElementById("markdown-editor").contentWindow.editor;
+
+			console.log(editor.getValue());
+
+			//file write
+			var fs = require('fs');
+
+			var myData = {
+			version:'1.0'
+			};
+
+			// 파일 이름에 Time stamp
+			var dt = new Date();
+			var utcDate = dt.toUTCString();
+			if (!Date.now) {
+					Date.now = function() { return new Date().getTime(); }
+			}
+			var timestamp = Math.floor(Date.now() / 1000);
+			myData["title"] = document.getElementById('note-title').value;
+			myData["created_time"] = timestamp;
+			myData["updated_time"] = utcDate;
+			myData["type"] = document.getElementById('select-language').value;
+			myData["important"] = false;
+			myData["trash"] = false;
+			myData["content"] = editor.getValue();
+
+
+			var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
+
+			fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
+			if(err) {
+			console.log(err);
+			} else {
+			console.log("JSON saved to " + outputFilename);
+			}
+			});
+
+		}
+		</script>
 
 		<script type="text/javascript">
 		$(document).ready(function(){
@@ -497,8 +537,8 @@
 					document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.left = "0%";
 					document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.width = "auto";
 				});
-				$("#btn-info").click(function(){
-
+				$("#btn-save").click(function(){
+					saveNote();
 				});
 				$("#btn-download").click(function(){
 					document.getElementById('markdown-editor').contentWindow.showMenu();
