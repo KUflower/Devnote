@@ -491,10 +491,9 @@
 			  fs.mkdirSync(dir);
 			}
 
+			document.getElementById('note-title').value = "";
 			var editor = document.getElementById("markdown-editor").contentWindow.editor;
-
-			console.log(editor.getValue());
-
+			editor.setValue("");
 
 			var myData = {
 			version:'1.0'
