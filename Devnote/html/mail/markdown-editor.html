@@ -304,36 +304,52 @@
       reader.readAsText(e.dataTransfer.files[0]);
     }, false);
     function saveAsMarkdown(){
-/*
-      var s = editor.getValue(); // even for comment, odd for code
-      var c = s.split("```");
-      var code ="";
-      var comment = "";
-      var i;
-      for(i=0; i<c.length ;i= i+2){
-        comment += c[i];
+      var title = window.parent.document.getElementById("note-title").value;
+      if(title == null || title == "" ){
+        save(editor.getValue(), "untitled.md");
+      }else{
+        save(editor.getValue(), title + ".md");
       }
-      for(i=1; i<c.length ;i= i+2){
-        code += "```" + c[i] + "```";
-      }
-      save(comment + code, "untitled.md");
-      */
-      save(editor.getValue(), "untitled.md");
     }
     function saveAsCode(){
-      var c = editor.getValue().split("```");// even for comment, odd for code
+      var title = window.parent.document.getElementById("note-title").value;
+      var language = window.parent.document.getElementById("select-language").value;
+
+      var c = editor.getValue().split("```"); // even for comment, odd for code
       var s = "";
       var i;
       for(i=0; i<c.length ;i= i+2){
-        c[i] =  "\n/*" + c[i] + "*/\n"; //make comment
+        if (/\S/.test(c[i])) {
+          if(c[i] != null || c[i] != ""){
+            c[i] =  "/*\n" + c[i] + "\n*/\n";   //make comment
+          }            // string is not empty and not just whitespace
+        }
       }
+
+      for(i=1; i<c.length; i= i+2){
+          c[i]= c[i].substring(c[i].indexOf('\n')+1);
+      }
+
       for(i=0; i<c.length ; i++){
         s += c[i];
       }
-      save(s, "code.txt");
+
+      if(title == null || title == ""){
+        save(s, "untitled" + "." + language );
+      }
+      else{
+        save(s, title + "." + language );
+      }
     }
     function saveAsHtml() {
-      save(document.getElementById('out').innerHTML, "untitled.html");
+      var title = window.parent.document.getElementById("note-title").value;
+      var s = document.getElementById('out').innerHTML;
+      if(title == null || title == ""){
+        save(s, "untitled.html");
+      }
+      else{
+        save(s, title + ".html");
+      }
     }
     document.getElementById('saveas-markdown').addEventListener('click', function() {
       saveAsMarkdown();
