@@ -202,79 +202,29 @@
 									<!-- BEGIN INBOX EMAIL LIST -->
 									<div class="col-md-4 col-lg-4 height-6 scroll-sm">
 
-<!--
-									<div class="form-group"  >
-										<select id="select-notebook" class="form-control">
-										<script>
-											var filesystem = require('fs');
-											var dir = __dirname+'/devfolder/';
-											console.log(dir);
-											filesystem.readdirSync(dir).forEach(function(file){
-												file = dir+'/'+file;
-												var stat = filesystem.statSync(file);
-												if (stat && stat.isDirectory()){
-													var filename = file.replace(/^.*[\\\/]/, '')
-													console.log(filename);
-													document.write("<option>"+filename+"</option>");
-												}
-											});
-										</script>
-										<option>모든 노트</option>
-										</select>
-									</div>
--->
 
-									<!-- 폴더 추가 -->
-									<div class="form-group"  >
-										<select id="select-notebook" class="form-control" onchange="showselected()">
-										<option>모든 노트</option>
+										<div id = "notelist" class="list-group list-email list-gray">
 										<script>
-											var filesystem = require('fs');
-											var dir = __dirname+'/devfolder/';
-											filesystem.readdirSync(dir).forEach(function(file){
-												file = dir+'/'+file;
-												var stat = filesystem.statSync(file);
-												if (stat && stat.isDirectory()){
-													var filename = file.replace(/^.*[\\\/]/, '');
-													document.write("<option>"+filename+"</option>");
-												}
-											});
-										</script>
-										</select>
-									</div>
-
-									<script>
 										function showselected() {
-											var x = document.getElementById("select-notebook").value
-											dir = __dirname+'/devfolder/'+x+'/';
-											filesystem.readdirSync(dir).forEach(function(file){
-												file = dir+'/'+file;
-												stat = filesystem.statSync(file);
-												if (stat) {
+											var x = document.getElementById("select-notebook").value;
+											if(x == "모든 노트") {
+												defaultselection();
+											}
+											else{
+												dir = __dirname+'/devfolder/'+x+'/';
+												document.getElementById("notelist").innerHTML = "";
+												filesystem.readdirSync(dir).forEach(function(file){
+													file = dir+'/'+file;
+													stat = filesystem.statSync(file);
 													filename = file.replace(/^.*[\\\/]/, '');
-													document.getElementById("notelist").innerHTML="<a href='#' class='list-group-item'> <h5>Notebook</h5> <h4>"+filename+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
-												}
-											});
+													console.log(filename);
+													document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item'> <h5>Notebook</h5> <h4>"+filename+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
+												});
+											}
 										}
-									</script>
+										</script>
 
 
-										<div id="notelist" class="list-group list-email list-gray">
-											<a href="#" class="list-group-item focus">
-												<h5>Notebook</h5>
-												<h4>Title</h4>
-												<p class="hidden-xs hidden-sm">
-                          Summary
-												</p>
-												<div class="stick-top-right small-padding text-default-light text-sm">12:46 am</div>
-											</a>
-											<a href="#" class="list-group-item">
-												<div class="stick-top-left small-padding"><i class="fa fa-dot-circle-o text-info"></i></div>
-												<h5>Notebook</h5>
-												<h4>Title</h4>
-												<div class="stick-top-right small-padding text-default-light text-sm">08:12 am</div>
-												<p class="hidden-xs hidden-sm">Summary</p>
-											</a>
 										</div><!--end .list-group -->
 									</div><!--end .col -->
 									<!-- END INBOX EMAIL LIST -->

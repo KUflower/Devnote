@@ -27,7 +27,7 @@ app.on('window-all-closed', function() {
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1000, height: 700});
+  mainWindow = new BrowserWindow({width: 1500, height: 700});
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname +'/html/mail/index.html');
