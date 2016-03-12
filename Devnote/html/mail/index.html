@@ -434,13 +434,19 @@
 		<script src="../../assets/js/core/demo/DemoFormEditors.js"></script>
 		<script>
 		function saveNote() {
+			var notebook = document.getElementById("select-notebook").value;
+			var dir = __dirname+'/devfolder/'+ notebook;
+			var fs = require('fs');			//file write
+
+			// 노트북 디렉토리 없을 시 폴더 생성
+			if(!fs.existsSync(dir)){
+			  fs.mkdirSync(dir);
+			}
 
 			var editor = document.getElementById("markdown-editor").contentWindow.editor;
 
 			console.log(editor.getValue());
 
-			//file write
-			var fs = require('fs');
 
 			var myData = {
 			version:'1.0'
@@ -461,8 +467,8 @@
 			myData["trash"] = false;
 			myData["content"] = editor.getValue();
 
-
-			var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
+//			var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
+			var outputFilename = dir + '/' + String(timestamp) + '.json';
 
 			fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
 			if(err) {
@@ -476,13 +482,19 @@
 		</script>
 		<script>
 		function createNote() {
+			var notebook = document.getElementById("select-notebook").value;
+			var dir = __dirname+'/devfolder/'+ notebook;
+			var fs = require('fs');			//file write
+
+			// 노트북 디렉토리 없을 시 폴더 생성
+			if(!fs.existsSync(dir)){
+			  fs.mkdirSync(dir);
+			}
 
 			var editor = document.getElementById("markdown-editor").contentWindow.editor;
 
 			console.log(editor.getValue());
 
-			//file write
-			var fs = require('fs');
 
 			var myData = {
 			version:'1.0'
@@ -503,14 +515,15 @@
 			myData["trash"] = false;
 			myData["content"] = editor.getValue();
 
-
-			var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
+//			var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
+			var outputFilename = dir + '/' + String(timestamp) + '.json';
 
 			fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
 			if(err) {
 			console.log(err);
 			} else {
 			console.log("JSON saved to " + outputFilename);
+			showselected();
 			}
 			});
 
@@ -538,7 +551,11 @@
 					document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.width = "auto";
 				});
 				$("#btn-save").click(function(){
-					saveNote();
+					var notebook = document.getElementById("select-notebook").value;
+					if(notebook != "모든 노트"){
+						saveNote();
+					}
+					showselected();
 				});
 				$("#btn-download").click(function(){
 					document.getElementById('markdown-editor').contentWindow.showMenu();
