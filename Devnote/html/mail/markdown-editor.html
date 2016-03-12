@@ -77,7 +77,7 @@
       border-radius: 5px;
       top: 50%;
       left: 50%;
-      width: 350px;
+      width: 360px;
       height: 150px;
       margin-top: -75px;
       margin-left: -125px;
@@ -206,6 +206,7 @@
 <body>
 
   <div id="in"><form><textarea id="code">
+
     # (GitHub-Flavored) Markdown Editor
 
 Basic useful feature list:
@@ -238,12 +239,7 @@ Basic useful feature list:
       <span>HTML</span>
     </div>
     <div id="saveas-code">
-      <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
-        <g transform="scale(0.0625) translate(64,0)">
-          <path d="M608 192l-96 96 224 224L512 736l96 96 288-320L608 192zM288 192L0 512l288 320 96-96L160 512l224-224L288 192z" />
-        </g>
-      </svg>
-
+      <img height="64" width="64" src="resources/edge-code-icon.png">
       <span>CODE</span>
     </div>
     <a id="close-menu">&times;</a>
@@ -387,18 +383,18 @@ Basic useful feature list:
     document.getElementById('close-menu').addEventListener('click', function(){
       hideMenu();
     });
-    // document.addEventListener('keydown', function(e){
+     document.addEventListener('keydown', function(e){
     //   if(e.keyCode == 83 && (e.ctrlKey || e.metaKey)){
     //     e.shiftKey ? showMenu() : saveAsMarkdown();
     //     e.preventDefault();
     //     return false;
     //   }
-    //   if(e.keyCode == 27 && menuVisible){
-    //     hideMenu();
-    //     e.preventDefault();
-    //     return false;
-    //   }
-    // });
+       if(e.keyCode == 27 && menuVisible){
+         hideMenu();
+         e.preventDefault();
+         return false;
+       }
+     });
     function updateHash(){
       window.location.hash = btoa( // base64 so url-safe
         RawDeflate.deflate( // gzip

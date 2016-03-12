@@ -41,6 +41,62 @@
 				padding:0px;
 				float:right;
 			}
+
+			/* from markdown-editor.html*/
+			#menu {
+	      display: none;
+	      position: fixed;
+	      background-color: #111;
+	      border-radius: 5px;
+	      top: 50%;
+	      left: 50%;
+	      width: 350px;
+	      height: 150px;
+	      margin-top: -75px;
+	      margin-left: -125px;
+	      z-index: 99;
+	      text-align: center;
+	      color: white;
+	    }
+
+	    #menu > span {
+	      display: block;
+	      font-size: 1.5em;
+	      line-height: 1.3;
+	      margin-top: 0.25em;
+	    }
+
+	    #menu > div {
+	      display: inline-block;
+	      width: 100px;
+	      text-align: center;
+	      vertical-align: top;
+	      cursor: pointer;
+	      opacity: 0.7;
+	    }
+
+	    #menu > div:hover {
+	      opacity: 1;
+	    }
+
+	    #menu svg {
+	      width: 64px;
+	      height: 64px;
+	      margin: 0 auto;
+	      display: block;
+	    }
+	    #menu path {
+	      fill: #fff;
+	    }
+
+	    #close-menu {
+	      position: absolute;
+	      top: 5px;
+	      right: 9px;
+	      color: white;
+	      cursor: pointer;
+	    }
+
 		</style>
 	</head>
 	<body class="menubar-hoverable header-fixed menubar-first full-content ">
@@ -141,12 +197,12 @@
 							</div><!--end . -->
 							<!-- END INBOX NAV -->
 
-							<div class="col-sm-8 col-md-10 col-lg-10">
+							<div class="col-sm-8 col-md-10 col-lg-10" >
 								<div class="row">
 									<!-- BEGIN INBOX EMAIL LIST -->
 									<div class="col-md-4 col-lg-4 height-6 scroll-sm">
 
-									<!-- 폴더 추가 -->
+<!--
 									<div class="form-group"  >
 										<select id="select-notebook" class="form-control">
 										<script>
@@ -166,8 +222,44 @@
 										<option>모든 노트</option>
 										</select>
 									</div>
+-->
 
-										<div class="list-group list-email list-gray">
+									<!-- 폴더 추가 -->
+									<div class="form-group"  >
+										<select id="select-notebook" class="form-control" onchange="showselected()">
+										<option>모든 노트</option>
+										<script>
+											var filesystem = require('fs');
+											var dir = __dirname+'/devfolder/';
+											filesystem.readdirSync(dir).forEach(function(file){
+												file = dir+'/'+file;
+												var stat = filesystem.statSync(file);
+												if (stat && stat.isDirectory()){
+													var filename = file.replace(/^.*[\\\/]/, '');
+													document.write("<option>"+filename+"</option>");
+												}
+											});
+										</script>
+										</select>
+									</div>
+
+									<script>
+										function showselected() {
+											var x = document.getElementById("select-notebook").value
+											dir = __dirname+'/devfolder/'+x+'/';
+											filesystem.readdirSync(dir).forEach(function(file){
+												file = dir+'/'+file;
+												stat = filesystem.statSync(file);
+												if (stat) {
+													filename = file.replace(/^.*[\\\/]/, '');
+													document.getElementById("notelist").innerHTML="<a href='#' class='list-group-item'> <h5>Notebook</h5> <h4>"+filename+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
+												}
+											});
+										}
+									</script>
+
+
+										<div id="notelist" class="list-group list-email list-gray">
 											<a href="#" class="list-group-item focus">
 												<h5>Notebook</h5>
 												<h4>Title</h4>
@@ -205,35 +297,36 @@
 										</div>
 										<ul class="header-nav header-nav-options" id="note-func">
 											<li>
-												<a class="btn btn-icon-toggle btn-default" title="">
-													<i class="md md-border-color"></i>
-												</a>
+												<button class="btn btn-icon-toggle btn-default" id="btn-delete" title="delete">
+													<i class="glyphicon glyphicon-trash"></i>
+												</button>
 											</li>
 											<li>
-												<a class="btn btn-icon-toggle btn-default" title="markdown" >
-													<i class="md md-assignment" id ="btn-markdown"></i><sup class="badge style-danger"></sup>
-												</a>
+												<button class="btn btn-icon-toggle btn-default" id="btn-download" title="download">
+													<i class="md md-file-download"></i>
+												</button>
 											</li>
 											<li>
-												<a href="#" class="btn btn-icon-toggle btn-default" title="preview">
-													<i class="md md-dvr"></i><sup class="badge style-danger"></sup>
-												</a>
-											</li>
-											<li>
-												<a href="#" class="btn btn-icon-toggle btn-default" title="info">
+												<button class="btn btn-icon-toggle btn-default" id="btn-info" title="info">
 													<i class="md md-info-outline"></i>
-												</a>
+												</button>
 											</li>
 											<li>
-												<a href="#" class="btn btn-icon-toggle btn-default" title="download">
-													<i class="md md-publish"></i>
-												</a>
+												<button class="btn btn-icon-toggle btn-default" id="btn-preview" title="preview">
+													<i class="md md-dvr"></i>
+												</button>
 											</li>
 											<li>
-												<a href="#" class="btn btn-icon-toggle btn-default" title="trash">
-													<i class="glyphicon glyphicon-trash"></i><sup class="badge style-danger"></sup>
-												</a>
+												<button class="btn btn-icon-toggle btn-default" id="btn-markdown" title="markdown" >
+													<i class="md md-assignment"></i>
+												</button>
 											</li>
+											<li>
+												<button class="btn btn-icon-toggle btn-default" id="btn-edit" title="edit">
+													<i class="md md-border-color"></i>
+												</button>
+											</li>
+
 										</ul><!--end .header-nav-options -->
 									</div>
 
@@ -274,7 +367,6 @@
 							<script src="rawinflate.js"></script>
 							<script src="rawdeflate.js"></script>
 							<script>
-
 							function button1_click() {
 								// var markdown_content = $('#markdown-editor').contents().find('code');
 								// console.log(markdown_content);
@@ -435,11 +527,6 @@
 
 		</div><!--end #base-->
 		<!-- END BASE -->
-
-		<!-- BEGIN JAVASCRIPT -->
-		<script>
-  			window.jQuery = window.$ = require('jquery');
-		</script>
 		<script src="../../assets/js/libs/jquery/jquery-1.11.2.min.js"></script>
 		<script src="../../assets/js/libs/jquery/jquery-migrate-1.2.1.min.js"></script>
 		<script src="../../assets/js/libs/bootstrap/bootstrap.min.js"></script>
@@ -458,7 +545,42 @@
 		<script src="../../assets/js/core/source/AppVendor.js"></script>
 		<script src="../../assets/js/core/demo/Demo.js"></script>
 		<script src="../../assets/js/core/demo/DemoFormEditors.js"></script>
+		<script>
+  			window.jQuery = window.$ = require('jquery');
+		</script>
 		<!-- END JAVASCRIPT -->
+
+		<script type="text/javascript">
+		$(document).ready(function(){
+				$("#btn-edit").click(function(){
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("in").style.display = "inline";
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("in").style.width = "50%";
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.display = "inline";
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.left = "50%";
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.width = "auto";
+				});
+				$("#btn-markdown").click(function(){
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.display = "none";
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("in").style.display = "inline";
+						document.getElementById('markdown-editor').contentWindow.document.getElementById("in").style.width = "100%";
+				});
+				$("#btn-preview").click(function(){
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("in").style.display = "none";
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.display = "inline";
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.left = "0%";
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.width = "auto";
+				});
+				$("#btn-info").click(function(){
+
+				});
+				$("#btn-download").click(function(){
+					document.getElementById('markdown-editor').contentWindow.showMenu();
+				});
+				$("#btn-delete").click(function(){
+
+				});
+		});
+		</script>
 
 	</body>
 </html>
