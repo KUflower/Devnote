@@ -207,14 +207,7 @@
 
   <div id="in"><form><textarea id="code">
 
-    # (GitHub-Flavored) Markdown Editor
-
-Basic useful feature list:
-
- * Ctrl+S / Cmd+S to save the file
- * Ctrl+Shift+S / Cmd+Shift+S to choose to save as Markdown or HTML
- * Drag and drop a file into here to load it
- * File contents are saved in the URL so you can share files
+  ### test
 
 </textarea></form></div>
   <div id="out"></div>
@@ -292,7 +285,7 @@ Basic useful feature list:
         }
       }
     }
-    var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+    window.editor = CodeMirror.fromTextArea(document.getElementById('code'), {
       mode: 'gfm',
       lineNumbers: false,
       matchBrackets: true,
@@ -426,6 +419,7 @@ Basic useful feature list:
       update(editor);
       editor.focus();
     }
+
   </script>
 </body>
 </html>

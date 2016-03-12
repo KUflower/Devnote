@@ -284,33 +284,12 @@
 						</div>
 						<div class="section-floating-action-row">
 							<button class="btn ink-reaction btn-floating-action btn-lg btn-accent" href="#" onclick="button1_click();"><i class="md md-done"></i></button>
-							<script src="codemirror/lib/codemirror.js"></script>
-							<script src="codemirror/overlay.js"></script>
-							<script src="codemirror/xml/xml.js"></script>
-							<script src="codemirror/markdown/markdown.js"></script>
-							<script src="codemirror/gfm/gfm.js"></script>
-							<script src="codemirror/javascript/javascript.js"></script>
-							<script src="codemirror/css/css.js"></script>
-							<script src="codemirror/htmlmixed/htmlmixed.js"></script>
-							<script src="codemirror/lib/util/continuelist.js"></script>
-							<script src="rawinflate.js"></script>
-							<script src="rawdeflate.js"></script>
 							<script>
 							function button1_click() {
-								// var markdown_content = $('#markdown-editor').contents().find('code');
-								// console.log(markdown_content);
-								//get object from iframe
+								
+								var editor = document.getElementById("markdown-editor").contentWindow.editor;
 
-								var editor = CodeMirror.fromTextArea(document.getElementById('markdown-editor').contentWindow.document.getElementById("code"), {
-							      mode: 'gfm',
-							      lineNumbers: false,
-							      matchBrackets: true,
-							      lineWrapping: true,
-							      theme: 'base16-light',
-							      extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList"}
-							    });
-
-								// console.log(editor.getValue());
+								console.log(editor.getValue());
 
 								//file write
 								var fs = require('fs');
@@ -319,7 +298,7 @@
 								title:'untitled',
 								version:'1.0'
 								};
-
+								
 								// 파일 이름에 Time stamp
 								var dt = new Date();
 								var utcDate = dt.toUTCString();
