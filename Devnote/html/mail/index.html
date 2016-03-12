@@ -166,14 +166,30 @@
 												if (x == "모든 노트"){
 													function defaultselection(){
 														window.onload=function(){
-															console.log('defaultselection');
 															document.getElementById("notelist").innerHTML = "";
-															document.getElementById("notelist").innerHTML += "<a href = '#' class='list-group-item'><h5>Notebook</h5><h4>Title</h4><p class='hidden-xs hidden-sm'></p><div class='stick-top-right small-padding text-default-light text-sm'>12:46am</div></a>";
+															var filesystem = require('fs');
+															var dir = __dirname+'/devfolder/';
+															filesystem.readdirSync(dir).forEach(function(file){
+																file = dir+'/'+file;
+																var stat = filesystem.statSync(file);
+																if (stat && stat.isDirectory()){
+																	var filename = file.replace(/^.*[\\\/]/, '');
+																	var dir2 = dir+filename+'/';
+																	filesystem.readdirSync(dir2).forEach(function(file){
+																		file = dir2+'/'+file;
+																		stat = filesystem.statSync(file);
+																		var filename2 = file.replace(/^.*[\\\/]/, '');
+																		if (filename2 != '.DS_Store'){
+																			document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item'> <h5>Notebook</h5> <h4>"+filename2+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
+																		}
+																	});
+																}
+															});
+														}
 													}
+													defaultselection();
 												}
-												defaultselection();
-											}
-										</script>
+											</script>
 										</select>
 									</div>
 										<div id = "notelist" class="list-group list-email list-gray">
@@ -181,12 +197,27 @@
 										function showselected() {
 											var x = document.getElementById("select-notebook").value;
 											if(x == "모든 노트") {
-												console.log(x);
 												function defaultselection(){
-													console.log('defaultselection');
 													document.getElementById("notelist").innerHTML = "";
-													document.getElementById("notelist").innerHTML += "<a href = '#' class='list-group-item'><h5>Notebook</h5><h4>Title</h4><p class='hidden-xs hidden-sm'></p><div class='stick-top-right small-padding text-default-light text-sm'>12:46am</div></a>";
-												}
+													var filesystem = require('fs');
+													var dir = __dirname+'/devfolder/';
+													filesystem.readdirSync(dir).forEach(function(file){
+														file = dir+'/'+file;
+														var stat = filesystem.statSync(file);
+														if (stat && stat.isDirectory()){
+															var filename = file.replace(/^.*[\\\/]/, '');
+															var dir2 = dir+filename+'/';
+																filesystem.readdirSync(dir2).forEach(function(file){
+																	file = dir2+'/'+file;
+																	stat = filesystem.statSync(file);
+																	var filename2 = file.replace(/^.*[\\\/]/, '');
+																	if (filename2 != '.DS_Store'){
+																		document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item'> <h5>Notebook</h5> <h4>"+filename2+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
+																		}
+																	});
+																}
+															});
+													}
 												defaultselection();
 											}
 											else{
@@ -196,14 +227,13 @@
 													file = dir+'/'+file;
 													stat = filesystem.statSync(file);
 													filename = file.replace(/^.*[\\\/]/, '');
-													console.log(filename);
-													document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item'> <h5>Notebook</h5> <h4>"+filename+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
+													if (filename != '.DS_Store'){
+														document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item'> <h5>Notebook</h5> <h4>"+filename+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
+													}
 												});
 											}
 										}
 										</script>
-
-
 										</div><!--end .list-group -->
 									</div><!--end .col -->
 									<!-- END INBOX EMAIL LIST -->
