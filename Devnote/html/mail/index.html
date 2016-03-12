@@ -35,7 +35,7 @@
 				float: right;
 			}
 			#note-title {
-				font-size: 10pt;
+				font-size: 14pt;
 			}
 			#note-func li{
 				padding:0px;
@@ -222,8 +222,9 @@
 									<!-- END INBOX EMAIL LIST -->
 
 									<div class="col-sm-12 col-md-9 col-lg-5">
-										<div class="form-group">
-											<input type="text" class="form-control" id="note-title" placeholder="제목 없음">
+										<div class="form-group floating-label">
+											<input type="text" class="form-control" id="note-title" placeholder="제목 없음" value="">
+											<label></label>
 										</div>
 									</div>
 
@@ -308,7 +309,6 @@
 								var fs = require('fs');
 
 								var myData = {
-								title:'untitled',
 								version:'1.0'
 								};
 								
@@ -319,9 +319,14 @@
 								    Date.now = function() { return new Date().getTime(); }
 								}
 								var timestamp = Math.floor(Date.now() / 1000);
-								myData["time"] = utcDate;
+								myData["title"] = document.getElementById('note-title').value;
+								myData["created_time"] = timestamp;
+								myData["updated_time"] = utcDate;
+								myData["type"] = document.getElementById('select-language').value;
+								myData["important"] = false;
+								myData["trash"] = false;
 								myData["content"] = editor.getValue();
-								myData["type"] = 'txt';
+								
 
 								var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
 
