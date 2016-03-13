@@ -487,6 +487,11 @@
 			var fs = require('fs');			//file write
 
 			// 노트북 디렉토리 없을 시 폴더 생성
+			if(notebook == "모든 노트"){
+				alert('모든 노트 모아보기 기능에서는 노트 추가가 불가합니다');
+				return ;
+			}
+
 			if(!fs.existsSync(dir)){
 			  fs.mkdirSync(dir);
 			}
