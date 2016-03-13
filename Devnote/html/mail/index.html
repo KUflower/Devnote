@@ -61,8 +61,8 @@
 
 							var summary = obj["content"];
 							var maxl = summary.length;
-							if(maxl>20)
-								maxl=20;
+							if(maxl>40)
+								maxl=40;
 							summary = summary.slice(0, maxl);
 
 							var notelistelement = "<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>"+filename+"</h5> <h4>"+title+"</h4> <p class = 'hidden-xs hidden-sm'>"+summary+"</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>"+updated+"</div></a>";
@@ -130,8 +130,8 @@
 
 						var summary = obj["content"];
 						var maxl = summary.length;
-						if(maxl>20)
-							maxl=20;
+						if(maxl>40)
+							maxl=40;
 						summary = summary.slice(0, maxl);
 
 						document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>"+x+"</h5> <h4>"+title+"</h4> <p class = 'hidden-xs hidden-sm'>"+summary+"</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>"+updated+"</div></a>";
