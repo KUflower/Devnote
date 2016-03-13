@@ -17,6 +17,7 @@
 		<link type="text/css" rel="stylesheet" href="../../assets/css/theme-1/font-awesome.min.css?1422529194" />
 		<link type="text/css" rel="stylesheet" href="../../assets/css/theme-1/material-design-iconic-font.min.css?1421434286" />
 		<link type="text/css" rel="stylesheet" href="../../assets/css/theme-1/libs/summernote/summernote.css?1425218701" />
+
 		<!-- END STYLESHEETS -->
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -24,9 +25,178 @@
 		<script type="text/javascript" src="../../assets/js/libs/utils/html5shiv.js?1403934957"></script>
 		<script type="text/javascript" src="../../assets/js/libs/utils/respond.min.js?1403934956"></script>
 		<![endif]-->
+		<script>
+  			window.jQuery = window.$ = require('jquery');
+		</script>
+		<script src="../../node_modules/angular/angular.js"></script>
+		<script>
+		function defaultselection(){
+
+			document.getElementById("notelist").innerHTML = "";
+			var filesystem = require('fs');
+			var dir = __dirname+'/devfolder/';
+			filesystem.readdirSync(dir).forEach(function(file){
+				file = dir+'/'+file;
+				var stat = filesystem.statSync(file);
+				if (stat && stat.isDirectory()){
+					var filename = file.replace(/^.*[\\\/]/, '');
+					var dir2 = dir+filename+'/';
+					filesystem.readdirSync(dir2).forEach(function(file){
+						file = dir2+'/'+file;
+						stat = filesystem.statSync(file);
+						var filename2 = file.replace(/^.*[\\\/]/, '');
+
+						if (filename2 != '.DS_Store'){
+							// read json
+							var fs = require('fs');
+							var obj = JSON.parse(fs.readFileSync(file, 'utf8'));
+
+							var title = obj["title"];
+							if(title.length == 0)
+								title = 'untitled';
+
+							var updated = obj["updated_time"];
+							updated = updated.slice(4,updated.length);
+							updated = updated.slice(0,-7);
+
+							var summary = obj["content"];
+							var maxl = summary.length;
+							if(maxl>20)
+								maxl=20;
+							summary = summary.slice(0, maxl);
+
+							var notelistelement = "<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>"+filename+"</h5> <h4>"+title+"</h4> <p class = 'hidden-xs hidden-sm'>"+summary+"</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>"+updated+"</div></a>";
+							document.getElementById("notelist").innerHTML+=String(notelistelement);
+						}
+					});
+				}
+			});
+		}
+		</script>
+
+		<script>
+		function showNotebookList() {
+			var filesystem = require('fs');
+			var dir = __dirname+'/devfolder/';
+
+			document.getElementById("select-notebook").innerHTML = "<option>모든 노트</option>";
+			filesystem.readdirSync(dir).forEach(function(file){
+				file = dir+'/'+file;
+				var stat = filesystem.statSync(file);
+				if (stat && stat.isDirectory()){
+					var filename = file.replace(/^.*[\\\/]/, '');
+					document.getElementById("select-notebook").innerHTML += "<option>"+filename+"</option>";
+				}
+			});
+
+			// 모든 노트일 때
+			var x = document.getElementById("select-notebook").value;
+			console.log(x);
+			if (x == "모든 노트"){
+				
+				defaultselection();
+			}
+		}
+		</script>
+
+		<script>
+		function showselected() {
+			var x = document.getElementById("select-notebook").value;
+			var filesystem = require('fs');
+			if(x == "모든 노트") {
+				
+				defaultselection();
+			}
+			else{
+				dir = __dirname+'/devfolder/'+x+'/';
+				document.getElementById("notelist").innerHTML = "";
+				filesystem.readdirSync(dir).forEach(function(file){
+					file = dir+'/'+file;
+					stat = filesystem.statSync(file);
+					filename = file.replace(/^.*[\\\/]/, '');
+					if (filename != '.DS_Store'){
+
+						// read json
+							var fs = require('fs');
+							var obj = JSON.parse(fs.readFileSync(file, 'utf8'));
+
+						var title = obj["title"];
+							if(title.length == 0)
+								title = 'untitled';
+
+						var updated = obj["updated_time"];
+						updated = updated.slice(4,updated.length);
+						updated = updated.slice(0,-7);
+
+						var summary = obj["content"];
+						var maxl = summary.length;
+						if(maxl>20)
+							maxl=20;
+						summary = summary.slice(0, maxl);
+
+						document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>"+x+"</h5> <h4>"+title+"</h4> <p class = 'hidden-xs hidden-sm'>"+summary+"</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>"+updated+"</div></a>";
+					}
+				});
+			}
+
+			// if there is no note, show null
+			if(	document.getElementById("notelist").innerHTML == ""){
+
+				document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>Notebook</h5> <h4>"+"null"+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
+			}
+		}
+		</script>
+
+		<script>
+			function shownote(file) {
+
+			var fs = require('fs');
+			var obj = JSON.parse(fs.readFileSync(file, 'utf8'));
+
+			var editor = document.getElementById("markdown-editor").contentWindow.editor;
+			editor.setValue(obj["content"]);
+
+			var notetitle = document.getElementById("note-title");
+			notetitle.value = obj["title"];
+
+			var selectnote = document.getElementById("select-language");
+			selectnote.value = obj["type"];
+
+		}
+
+		function test(d){
+			console.log('hi'+d);
+		}
+		</script>
+
+		<style>
+			#select-notebook{
+				color: rgba(49, 51, 53, 0.6);
+				font-size:10pt;
+			}
+			#select-language{
+				font-size:10pt;
+				color: rgba(49, 51, 53, 0.6);
+				float: right;
+			}
+			#note-title {
+				font-size: 14pt;
+			}
+			#note-func li{
+				padding:0px;
+				float:right;
+			}
+
+			.ui-widget-header{
+				 background: #673ab7!important;
+				 border:none!important;
+			}
+			.ui-state-default .ui-icon {
+				background-image: url(resources/blue-cross-md.png)!important;
+			}
+		</style>
 	</head>
 	<body class="menubar-hoverable header-fixed menubar-first full-content ">
-
 		<!-- BEGIN HEADER-->
 		<header id="header" >
 			<div class="headerbar">
@@ -59,35 +229,8 @@
 								<button type="submit" class="btn btn-icon-toggle ink-reaction"><i class="fa fa-search"></i></button>
 							</form>
 						</li>
-						<li>
-							<a href="../../html/mail/edit.html" class="btn btn-icon-toggle btn-default" >
-								<i class="md md-assignment"></i><sup class="badge style-danger"></sup>
-							</a>
-						</li>
-						<li>
-							<a href="../../html/mail/edit_code.html" class="btn btn-icon-toggle btn-default" >
-								<i class="md md-dvr"></i><sup class="badge style-danger"></sup>
-							</a>
-						</li>
 					</ul><!--end .header-nav-options -->
-					<ul class="header-nav header-nav-profile">
-						<li class="dropdown">
-							<a href="javascript:void(0);" class="dropdown-toggle ink-reaction" data-toggle="dropdown">
-								<img src="../../assets/img/avatar1.jpg?1403934956" alt="" />
-								<span class="profile-info">
-									Lee Sangmi
-									<small>Administrator</small>
-								</span>
-							</a>
-							<ul class="dropdown-menu animation-dock">
-								<li class="dropdown-header">Config</li>
-								<li><a href="../../html/pages/profile.html">My profile</a></li>
-								<li class="divider"></li>
-								<li><a href="../../html/pages/locked.html"><i class="fa fa-fw fa-lock"></i> Lock</a></li>
-								<li><a href="../../html/pages/login.html"><i class="fa fa-fw fa-power-off text-danger"></i> Logout</a></li>
-							</ul><!--end .dropdown-menu -->
-						</li><!--end .dropdown -->
-					</ul><!--end .header-nav-profile -->
+
 				</div><!--end #header-navbar-collapse -->
 			</div>
 		</header>
@@ -104,14 +247,12 @@
 			<!-- BEGIN CONTENT-->
 			<div id="content">
 				<section class="has-actions style-default-bright">
-
-
 					<!-- BEGIN INBOX -->
 					<div class="section-body" style="margin-top:20px;">
 						<div class="row">
 
 							<!-- BEGIN INBOX NAV -->
-							<div class="col-sm-4 col-md-2 col-lg-2">
+							<!-- <div class="col-sm-4 col-md-2 col-lg-2">
 								<form class="navbar-search margin-bottom-xxl" role="search">
 									<div class="form-group">
 										<input type="text" class="form-control" name="contactSearch" placeholder="Enter your keyword">
@@ -130,60 +271,130 @@
 									<li><a href="#" class="text-default-light">Notebook List</a></li>
 									</a></li>
 								</ul>
-							</div><!--end . -->
+							</div> --><!--end . -->
 							<!-- END INBOX NAV -->
 
-							<div class="col-sm-8 col-md-10 col-lg-10">
-								<div class="row">
-
+							<div class="col-sm-12 col-md-12 col-lg-12" >
+								<div class="row" ng-app="myApp" ng-controller="noteCtrl">
 									<!-- BEGIN INBOX EMAIL LIST -->
-									<div class="col-md-4 col-lg-4 height-6 scroll-sm">
-										<div class="list-group list-email list-gray">
-											<a href="../../html/mail/edit.html" class="list-group-item focus">
-												<h5>Notebook</h5>
-												<h4>Title</h4>
-												<p class="hidden-xs hidden-sm">
-                          Summary
-												</p>
-												<div class="stick-top-right small-padding text-default-light text-sm">12:46 am</div>
-											</a>
-											<a href="../../html/mail/index.html" class="list-group-item">
-												<div class="stick-top-left small-padding"><i class="fa fa-dot-circle-o text-info"></i></div>
-												<h5>Notebook</h5>
-												<h4>Title</h4>
-												<div class="stick-top-right small-padding text-default-light text-sm">08:12 am</div>
-												<p class="hidden-xs hidden-sm">Summary</p>
-											</a>
+									<div class="col-md-3 col-lg-3 height-6 scroll-sm">
+										<div class="form-group">
+											<div style="float:left; width:30px; height:auto;margin-right:10px;">
+												<span style="font-size:0pt; line-height:0;">&nbsp;</span>
+												<button style="top:-15px;"class="btn ink-reaction btn-floating-action btn-xs btn-accent md-add" id="opener-5"></button>
+											</div>
+												<!-- END BASE -->
+												<div id="dialog-6" style="display:none;">
+													 <input type="text" class="form-control" id="notebook-title" placeholder=" 새로 추가할 노트북 이름을 입력해 주세요." value="" style="background-color:white;">
+									      </div>
+
+
+											<select style="width:calc(100% - 40px);"id="select-notebook" class="form-control" onchange="showselected()">
+											
+										</select>
+									</div>
+										<div id = "notelist" class="list-group list-email list-gray">
+										
 										</div><!--end .list-group -->
 									</div><!--end .col -->
 									<!-- END INBOX EMAIL LIST -->
 
+<script>
+var app = angular.module('myApp', []);
+app.controller('noteCtrl', function($scope, $http, $compile) {
+
+	// $scope.$watch('$viewContentLoaded', function() {
+
+ //    // alert('3');
+    console.log('start');
+	// });
+	$scope.$watch('$viewContentLoaded', function() {
+
+		console.log('loaded');
+		// var $elem = angular.element("#note-title");
+		// $elem.replaceWith($compile($elem)($scope));
+	});
+
+
+	$scope.noteclick = function(data) {
+
+		//read file
+		var dir = __dirname+'/devfolder/f';
+		file = dir+'/'+data + '.json';
+
+		// var fs = require('fs');
+		// var obj = JSON.parse(fs.readFileSync('file', 'utf8'));
+		var editor = document.getElementById("markdown-editor").contentWindow.editor;
+		editor.setValue('this: '+file);
+
+	};
+	
+    
+});
+</script>
+
+									<div class="col-sm-12 col-md-9 col-lg-5">
+										<div class="form-group floating-label">
+											<input type="text" class="form-control" id="note-title" placeholder="제목 없음" value="">
+											<label></label>
+										</div>
+									</div>
+
+									<div class="col-sm-12 col-md-9 col-lg-4" >
+										<div class="form-group"  style="float:left; width:100px; padding-right:4px; margin:0px; ">
+											<select id="select-language" name="select-language" class="form-control" style="float:left;">
+												<option value="txt">Plain Text</option>
+												<option value="c">C</option>
+												<option value="cpp">C++</option>
+												<option value="java">Java</option>
+												<option value="js">JavaScript</option>
+											</select>
+										</div>
+
+										<ul class="header-nav header-nav-options" id="note-func" style="float:left;">
+											<li>
+												<button class="btn btn-icon-toggle btn-default" id="btn-delete" title="delete">
+													<i class="glyphicon glyphicon-trash"></i>
+												</button>
+											</li>
+											<li>
+												<button class="btn btn-icon-toggle btn-default" id="btn-download" title="download">
+													<i class="md md-file-download"></i>
+												</button>
+											</li>
+											<li>
+												<button class="btn btn-icon-toggle btn-default" id="btn-save" title="save">
+													<i class="md md-save"></i>
+												</button>
+											</li>
+											<li>
+												<button class="btn btn-icon-toggle btn-default" id="btn-preview" title="preview">
+													<i class="md md-dvr"></i>
+												</button>
+											</li>
+											<li>
+												<button class="btn btn-icon-toggle btn-default" id="btn-markdown" title="markdown" >
+													<i class="md md-assignment"></i>
+												</button>
+											</li>
+											<li>
+												<button class="btn btn-icon-toggle btn-default" id="btn-edit" title="edit">
+													<i class="md md-border-color"></i>
+												</button>
+											</li>
+
+										</ul><!--end .header-nav-options -->
+									</div>
 
 									<!-- BEGIN MAIL REPLY -->
-									<div class="col-md-8 col-lg-8">
-
-									<div class="form-group">
-										<input type="text" class="form-control" id="regular1" placeholder="제목 없음">
-									</div>
+									<div class="col-md-9 col-lg-9">
 
 
 									<!--BEGIN Markdown editor -->
-									<iframe src="./markdown-editor.html" width = "100%" height="600" frameBorder="0"></iframe>
+									<iframe id='markdown-editor' src="./markdown-editor.html" width = "100%" height="600" frameBorder="0"></iframe>
 									<!--END Markdown editor -->
 
 									</div><!--end .col -->
-									<!-- BEGIN TOGGLE BUTTON GROUPS -->
-									<div class="row" align="center">
-										<a href="../../html/mail/edit.html">
-										<button type="button" class="btn ink-reaction btn-raised btn-primary"><i class="md md-assignment"></i> 문서</button></a>
-
-										<a href="../../html/mail/edit_code.html">
-										<button type="button" class="btn ink-reaction btn-raised btn-primary"><i class="md md-dvr"></i> 코드</button></a>
-
-										<a href="../../html/mail/edit.html">
-										<button type="button" class="btn ink-reaction btn-raised btn-primary"><i class="md md-dvr"></i> 테스트</button></a>
-									</div><!--end .row -->
-									<!-- END TOGGLE BUTTON GROUPS -->
 
 									<!-- BEGIN MAIL REPLY -->
 								</div><!--end .row -->
@@ -195,10 +406,10 @@
 					<!-- BEGIN SECTION ACTION -->
 					<div class="section-action style-primary">
 						<div class="section-action-row">
-							<a class="btn ink-reaction btn-icon-toggle" href="#"><i class="fa fa-chevron-left"></i></a>
+							<a class="btn ink-reaction btn-icon-toggle" onClick="test('.json')"href="#"><i class="fa fa-chevron-left"></i></a>
 						</div>
 						<div class="section-floating-action-row">
-							<a class="btn ink-reaction btn-floating-action btn-lg btn-accent" href="#"><i class="md md-done"></i></a>
+							<button class="btn ink-reaction btn-floating-action btn-lg btn-accent md-add" href="#" onclick="createNote();"></button>
 						</div>
 					</div>
 					<!-- END SECTION ACTION -->
@@ -223,7 +434,6 @@
 				</div>
 				<div class="menubar-scroll-panel">
 
-					<!-- BEGIN MAIN MENU -->
 					<ul id="main-menu" class="gui-controls">
 
 						<!-- BEGIN DASHBOARD -->
@@ -244,9 +454,9 @@
 							<!--start submenu -->
 							<ul>
 								<li><a href="#" class="active"><span class="title">Notes</span></a></li>
-								<li><a href="#" ><span class="title">Compose</span></a></li>
-								<li><a href="#" ><span class="title">Add</span></a></li>
-								<li><a href="#" ><span class="title">View</span></a></li>
+								<li><a href="#" ><span class="title">Recent</span></a></li>
+								<li><a href="#" ><span class="title">Important</span></a></li>
+								<li><a href="#" ><span class="title">Trash</span></a></li>
 							</ul><!--end /submenu -->
 						</li><!--end /menu-li -->
 						<!-- END EMAIL -->
@@ -312,12 +522,7 @@
 			<!-- END MENUBAR -->
 
 		</div><!--end #base-->
-		<!-- END BASE -->
 
-		<!-- BEGIN JAVASCRIPT -->
-		<script>
-  			window.jQuery = window.$ = require('jquery');
-		</script>
 		<script src="../../assets/js/libs/jquery/jquery-1.11.2.min.js"></script>
 		<script src="../../assets/js/libs/jquery/jquery-migrate-1.2.1.min.js"></script>
 		<script src="../../assets/js/libs/bootstrap/bootstrap.min.js"></script>
@@ -336,7 +541,215 @@
 		<script src="../../assets/js/core/source/AppVendor.js"></script>
 		<script src="../../assets/js/core/demo/Demo.js"></script>
 		<script src="../../assets/js/core/demo/DemoFormEditors.js"></script>
-		<!-- END JAVASCRIPT -->
+		<link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+		      <!-- CSS -->
+		<script>
+		function saveNote() {
+			var notebook = document.getElementById("select-notebook").value;
+			var dir = __dirname+'/devfolder/'+ notebook;
+			var fs = require('fs');			//file write
+			// 노트북 디렉토리 없을 시 폴더 생성
+			if(!fs.existsSync(dir)){
+			  fs.mkdirSync(dir);
+			}
+			var editor = document.getElementById("markdown-editor").contentWindow.editor;
+			console.log(editor.getValue());
+			var myData = {
+			version:'1.0'
+			};
+			// 파일 이름에 Time stamp
+			var dt = new Date();
+			var utcDate = dt.toUTCString();
+			if (!Date.now) {
+					Date.now = function() { return new Date().getTime(); }
+			}
+			var timestamp = Math.floor(Date.now() / 1000);
+			myData["title"] = document.getElementById('note-title').value;
+			myData["created_time"] = timestamp;
+			myData["updated_time"] = utcDate;
+			myData["type"] = document.getElementById('select-language').value;
+			myData["important"] = false;
+			myData["trash"] = false;
+			myData["content"] = editor.getValue();
+//			var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
+			var outputFilename = dir + '/' + String(timestamp) + '.json';
+			fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
+			if(err) {
+			console.log(err);
+			} else {
+			console.log("JSON saved to " + outputFilename);
+			}
+			});
+		}
+		</script>
+		<script>
+		function createNote() {
+			var notebook = document.getElementById("select-notebook").value;
+			var dir = __dirname+'/devfolder/'+ notebook;
+			var fs = require('fs');			//file write
+			// 노트북 디렉토리 없을 시 폴더 생성
+			if(notebook == "모든 노트"){
+				alert('모든 노트 모아보기 기능에서는 노트 추가가 불가합니다');
+				return ;
+			}
+			if(!fs.existsSync(dir)){
+			  fs.mkdirSync(dir);
+			}
+			document.getElementById('note-title').value = "";
+			var editor = document.getElementById("markdown-editor").contentWindow.editor;
+			editor.setValue("");
+			var myData = {
+			version:'1.0'
+			};
+			// 파일 이름에 Time stamp
+			var dt = new Date();
+			var utcDate = dt.toUTCString();
+			if (!Date.now) {
+					Date.now = function() { return new Date().getTime(); }
+			}
+			var timestamp = Math.floor(Date.now() / 1000);
+			myData["title"] = document.getElementById('note-title').value;
+			myData["created_time"] = timestamp;
+			myData["updated_time"] = utcDate;
+			myData["type"] = document.getElementById('select-language').value;
+			myData["important"] = false;
+			myData["trash"] = false;
+			myData["content"] = editor.getValue();
+//			var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
+			var outputFilename = dir + '/' + String(timestamp) + '.json';
+			fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
+			if(err) {
+			console.log(err);
+			} else {
+			console.log("JSON saved to " + outputFilename);
+			showselected();
+			}
+			});
+		}
+		</script>
+
+		<script type="text/javascript">
+		$(document).ready(function(){
+				$("#btn-edit").click(function(){
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("in").style.display = "inline";
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("in").style.width = "50%";
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.display = "inline";
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.left = "50%";
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.width = "auto";
+				});
+				$("#btn-markdown").click(function(){
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.display = "none";
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("in").style.display = "inline";
+						document.getElementById('markdown-editor').contentWindow.document.getElementById("in").style.width = "100%";
+				});
+				$("#btn-preview").click(function(){
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("in").style.display = "none";
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.display = "inline";
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.left = "0%";
+					document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.width = "auto";
+				});
+				$("#btn-save").click(function(){
+					var notebook = document.getElementById("select-notebook").value;
+					if(notebook != "모든 노트"){
+						saveNote();
+					}
+					showselected();
+				});
+				$("#btn-download").click(function(){
+					document.getElementById('markdown-editor').contentWindow.showMenu();
+				});
+				$("#btn-delete").click(function(){
+				});
+		});
+		</script>
+		<script type="text/javascript">
+     $(function(){
+        $( "#dialog-6" ).dialog({
+     autoOpen: false,
+           buttons: {
+              OK: function() {
+                 $( this ).dialog( "close" );
+              }
+           },
+           beforeClose: function( event, ui ) {
+						 var x = document.getElementById("notebook-title").value;
+						 if (! (/\S/.test(x))) {
+								alert("노트북 이름이 비었습니다.");
+                 event.preventDefault();
+                 $( "[for=terms]" ).addClass( "invalid" );
+            	}
+							else if ( x == "모든 노트"){
+								 alert(x + " 은(는) 노트북 이름이 될 수 없습니다.");
+							}
+						else{ // create new notebook
+							createNotebook(x);
+						}
+           },
+           width: 600
+        });
+        $( "#opener-5" ).click(function() {
+           $( "#dialog-6" ).dialog( "open" );
+        });
+     });
+    </script>
+		<script>
+		function createNotebook(notebook) {
+			var dir = __dirname+'/devfolder/'+ notebook;
+			var fs = require('fs');			//file write
+			// 노트북 디렉토리 없을 시 폴더 생성
+			if(notebook == "모든 노트"){
+				alert('모든 노트 모아보기 기능에서는 노트 추가가 불가합니다');
+				return ;
+			}
+			if(!fs.existsSync(dir)){
+			  fs.mkdirSync(dir);
+			}
+			document.getElementById('note-title').value = "";
+			var editor = document.getElementById("markdown-editor").contentWindow.editor;
+			editor.setValue("");
+
+
+//
+			var myData = {
+			version:'1.0'
+			};
+			// 파일 이름에 Time stamp
+			var dt = new Date();
+			var utcDate = dt.toUTCString();
+			if (!Date.now) {
+					Date.now = function() { return new Date().getTime(); }
+			}
+			var timestamp = Math.floor(Date.now() / 1000);
+			myData["title"] = document.getElementById('note-title').value;
+			myData["created_time"] = timestamp;
+			myData["updated_time"] = utcDate;
+			myData["type"] = document.getElementById('select-language').value;
+			myData["important"] = false;
+			myData["trash"] = false;
+			myData["content"] = editor.getValue();
+
+			var outputFilename = dir + '/' + String(timestamp) + '.json';
+			fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
+			if(err) {
+			console.log(err);
+			} else {
+			console.log("JSON saved to " + outputFilename);
+			}
+			});
+			showNotebookList();
+			document.getElementById("select-notebook").value = notebook;
+			showselected();
+		}
+		</script>
+
+		<!-- init -->
+		<script type="text/javascript">
+
+		showNotebookList();
+		// defaultselection();
+		</script>
 
 	</body>
 </html>

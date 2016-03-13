@@ -7,6 +7,13 @@ const BrowserWindow = electron.BrowserWindow;  // Module to create native browse
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+// 폴더 생성
+var fs = require('fs');
+var dir = __dirname+'/html/mail/devfolder';
+if(!fs.existsSync(dir)){
+  fs.mkdirSync(dir);
+}
+
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
   // On OS X it is common for applications and their menu bar
@@ -20,14 +27,11 @@ app.on('window-all-closed', function() {
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1000, height: 700});
+  mainWindow = new BrowserWindow({width: 1500, height: 700});
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname +'/html/mail/index.html');
   // '/html/mail/inbox.html'
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {

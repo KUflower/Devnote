@@ -64,7 +64,7 @@
       padding: 10px;
       padding-left: 20px;
       color: #444;
-      font-family:Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+      font-family:'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
       font-size: 16px;
       line-height: 1.5em;
     }
@@ -77,7 +77,7 @@
       border-radius: 5px;
       top: 50%;
       left: 50%;
-      width: 350px;
+      width: 360px;
       height: 150px;
       margin-top: -75px;
       margin-left: -125px;
@@ -206,14 +206,8 @@
 <body>
 
   <div id="in"><form><textarea id="code">
-    # (GitHub-Flavored) Markdown Editor
 
-Basic useful feature list:
-
- * Ctrl+S / Cmd+S to save the file
- * Ctrl+Shift+S / Cmd+Shift+S to choose to save as Markdown or HTML
- * Drag and drop a file into here to load it
- * File contents are saved in the URL so you can share files
+  ### test
 
 </textarea></form></div>
   <div id="out"></div>
@@ -238,12 +232,7 @@ Basic useful feature list:
       <span>HTML</span>
     </div>
     <div id="saveas-code">
-      <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
-        <g transform="scale(0.0625) translate(64,0)">
-          <path d="M608 192l-96 96 224 224L512 736l96 96 288-320L608 192zM288 192L0 512l288 320 96-96L160 512l224-224L288 192z" />
-        </g>
-      </svg>
-
+      <img height="64" width="64" src="resources/edge-code-icon.png">
       <span>CODE</span>
     </div>
     <a id="close-menu">&times;</a>
@@ -296,7 +285,7 @@ Basic useful feature list:
         }
       }
     }
-    var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+    window.editor = CodeMirror.fromTextArea(document.getElementById('code'), {
       mode: 'gfm',
       lineNumbers: false,
       matchBrackets: true,
@@ -315,36 +304,52 @@ Basic useful feature list:
       reader.readAsText(e.dataTransfer.files[0]);
     }, false);
     function saveAsMarkdown(){
-/*
-      var s = editor.getValue(); // even for comment, odd for code
-      var c = s.split("```");
-      var code ="";
-      var comment = "";
-      var i;
-      for(i=0; i<c.length ;i= i+2){
-        comment += c[i];
+      var title = window.parent.document.getElementById("note-title").value;
+      if(title == null || title == "" ){
+        save(editor.getValue(), "untitled.md");
+      }else{
+        save(editor.getValue(), title + ".md");
       }
-      for(i=1; i<c.length ;i= i+2){
-        code += "```" + c[i] + "```";
-      }
-      save(comment + code, "untitled.md");
-      */
-      save(editor.getValue(), "untitled.md");
     }
     function saveAsCode(){
-      var c = editor.getValue().split("```");// even for comment, odd for code
+      var title = window.parent.document.getElementById("note-title").value;
+      var language = window.parent.document.getElementById("select-language").value;
+
+      var c = editor.getValue().split("```"); // even for comment, odd for code
       var s = "";
       var i;
       for(i=0; i<c.length ;i= i+2){
-        c[i] =  "\n/*" + c[i] + "*/\n"; //make comment
+        if (/\S/.test(c[i])) {
+          if(c[i] != null || c[i] != ""){
+            c[i] =  "/*\n" + c[i] + "\n*/\n";   //make comment
+          }            // string is not empty and not just whitespace
+        }
       }
+
+      for(i=1; i<c.length; i= i+2){
+          c[i]= c[i].substring(c[i].indexOf('\n')+1);
+      }
+
       for(i=0; i<c.length ; i++){
         s += c[i];
       }
-      save(s, "code.txt");
+
+      if(title == null || title == ""){
+        save(s, "untitled" + "." + language );
+      }
+      else{
+        save(s, title + "." + language );
+      }
     }
     function saveAsHtml() {
-      save(document.getElementById('out').innerHTML, "untitled.html");
+      var title = window.parent.document.getElementById("note-title").value;
+      var s = document.getElementById('out').innerHTML;
+      if(title == null || title == ""){
+        save(s, "untitled.html");
+      }
+      else{
+        save(s, title + ".html");
+      }
     }
     document.getElementById('saveas-markdown').addEventListener('click', function() {
       saveAsMarkdown();
@@ -387,18 +392,18 @@ Basic useful feature list:
     document.getElementById('close-menu').addEventListener('click', function(){
       hideMenu();
     });
-    document.addEventListener('keydown', function(e){
-      if(e.keyCode == 83 && (e.ctrlKey || e.metaKey)){
-        e.shiftKey ? showMenu() : saveAsMarkdown();
-        e.preventDefault();
-        return false;
-      }
-      if(e.keyCode == 27 && menuVisible){
-        hideMenu();
-        e.preventDefault();
-        return false;
-      }
-    });
+     document.addEventListener('keydown', function(e){
+    //   if(e.keyCode == 83 && (e.ctrlKey || e.metaKey)){
+    //     e.shiftKey ? showMenu() : saveAsMarkdown();
+    //     e.preventDefault();
+    //     return false;
+    //   }
+       if(e.keyCode == 27 && menuVisible){
+         hideMenu();
+         e.preventDefault();
+         return false;
+       }
+     });
     function updateHash(){
       window.location.hash = btoa( // base64 so url-safe
         RawDeflate.deflate( // gzip
@@ -430,6 +435,7 @@ Basic useful feature list:
       update(editor);
       editor.focus();
     }
+
   </script>
 </body>
 </html>
