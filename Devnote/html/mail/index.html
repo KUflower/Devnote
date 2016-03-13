@@ -61,8 +61,8 @@
 
 							var summary = obj["content"];
 							var maxl = summary.length;
-							if(maxl>20)
-								maxl=20;
+							if(maxl>40)
+								maxl=40;
 							summary = summary.slice(0, maxl);
 
 							var notelistelement = "<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>"+filename+"</h5> <h4>"+title+"</h4> <p class = 'hidden-xs hidden-sm'>"+summary+"</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>"+updated+"</div></a>";
@@ -130,8 +130,8 @@
 
 						var summary = obj["content"];
 						var maxl = summary.length;
-						if(maxl>20)
-							maxl=20;
+						if(maxl>40)
+							maxl=40;
 						summary = summary.slice(0, maxl);
 
 						document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>"+x+"</h5> <h4>"+title+"</h4> <p class = 'hidden-xs hidden-sm'>"+summary+"</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>"+updated+"</div></a>";
@@ -551,6 +551,11 @@ app.controller('noteCtrl', function($scope, $http, $compile) {
 			var dir = __dirname+'/devfolder/'+ notebook;
 			var fs = require('fs');			//file write
 			// 노트북 디렉토리 없을 시 폴더 생성
+			console.log(notebook);
+			if(notebook == "모든 노트"){
+				alert('모든 노트 모아보기 기능에서는 노트 저장 불가합니다');
+				return ;
+			}
 			if(!fs.existsSync(dir)){
 			  fs.mkdirSync(dir);
 			}
@@ -566,7 +571,10 @@ app.controller('noteCtrl', function($scope, $http, $compile) {
 					Date.now = function() { return new Date().getTime(); }
 			}
 			var timestamp = Math.floor(Date.now() / 1000);
-			myData["title"] = document.getElementById('note-title').value;
+			var title = document.getElementById('note-title').value;
+			if(title.length == 0)
+				title = 'untitled';
+			myData["title"] =title;
 			myData["created_time"] = timestamp;
 			myData["updated_time"] = utcDate;
 			myData["type"] = document.getElementById('select-language').value;
@@ -574,12 +582,13 @@ app.controller('noteCtrl', function($scope, $http, $compile) {
 			myData["trash"] = false;
 			myData["content"] = editor.getValue();
 //			var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
-			var outputFilename = dir + '/' + String(timestamp) + '.json';
+			var outputFilename = dir + '/' + title + '.json';
 			fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
 			if(err) {
 			console.log(err);
 			} else {
 			console.log("JSON saved to " + outputFilename);
+			showselected();
 			}
 			});
 		}
@@ -591,6 +600,7 @@ app.controller('noteCtrl', function($scope, $http, $compile) {
 			var fs = require('fs');			//file write
 			// 노트북 디렉토리 없을 시 폴더 생성
 			if(notebook == "모든 노트"){
+				console.log("error 모든");
 				alert('모든 노트 모아보기 기능에서는 노트 추가가 불가합니다');
 				return ;
 			}
@@ -610,7 +620,10 @@ app.controller('noteCtrl', function($scope, $http, $compile) {
 					Date.now = function() { return new Date().getTime(); }
 			}
 			var timestamp = Math.floor(Date.now() / 1000);
-			myData["title"] = document.getElementById('note-title').value;
+			var title = document.getElementById('note-title').value;
+			if(title.length == 0)
+				title = 'untitled';
+			myData["title"] =title;
 			myData["created_time"] = timestamp;
 			myData["updated_time"] = utcDate;
 			myData["type"] = document.getElementById('select-language').value;
@@ -618,7 +631,7 @@ app.controller('noteCtrl', function($scope, $http, $compile) {
 			myData["trash"] = false;
 			myData["content"] = editor.getValue();
 //			var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
-			var outputFilename = dir + '/' + String(timestamp) + '.json';
+			var outputFilename = dir + '/' + title + '.json';
 			fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
 			if(err) {
 			console.log(err);
@@ -655,7 +668,7 @@ app.controller('noteCtrl', function($scope, $http, $compile) {
 					if(notebook != "모든 노트"){
 						saveNote();
 					}
-					showselected();
+					// showselected();
 				});
 				$("#btn-download").click(function(){
 					document.getElementById('markdown-editor').contentWindow.showMenu();
@@ -730,7 +743,7 @@ app.controller('noteCtrl', function($scope, $http, $compile) {
 			myData["trash"] = false;
 			myData["content"] = editor.getValue();
 
-			var outputFilename = dir + '/' + String(timestamp) + '.json';
+			var outputFilename = dir + '/' + notebook + '.json';
 			fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
 			if(err) {
 			console.log(err);
