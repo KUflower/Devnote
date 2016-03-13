@@ -88,8 +88,8 @@ repository.
 # Clone the repository
 $ git clone https://github.com/KUflower/Devnote
 # Go into the repository
-$ cd Devnote/Devnote
-# Install dependencies and run the app
+$ cd Devnote/devnoteproj
+# Install dependencies and run the app with Electron
 $ npm install && npm start
 ```
 
