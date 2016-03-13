@@ -47,8 +47,25 @@
 						var filename2 = file.replace(/^.*[\\\/]/, '');
 
 						if (filename2 != '.DS_Store'){
+							// read json
+							var fs = require('fs');
+							var obj = JSON.parse(fs.readFileSync(file, 'utf8'));
 
-							var notelistelement = "<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>Notebook</h5> <h4>"+filename2+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
+							var title = obj["title"];
+							if(title.length == 0)
+								title = 'untitled';
+
+							var updated = obj["updated_time"];
+							updated = updated.slice(4,updated.length);
+							updated = updated.slice(0,-7);
+
+							var summary = obj["content"];
+							var maxl = summary.length;
+							if(maxl>20)
+								maxl=20;
+							summary = summary.slice(0, maxl);
+
+							var notelistelement = "<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>"+filename+"</h5> <h4>"+title+"</h4> <p class = 'hidden-xs hidden-sm'>"+summary+"</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>"+updated+"</div></a>";
 							document.getElementById("notelist").innerHTML+=String(notelistelement);
 						}
 					});
@@ -98,13 +115,33 @@
 					stat = filesystem.statSync(file);
 					filename = file.replace(/^.*[\\\/]/, '');
 					if (filename != '.DS_Store'){
-						document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>Notebook</h5> <h4>"+filename+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
+
+						// read json
+							var fs = require('fs');
+							var obj = JSON.parse(fs.readFileSync(file, 'utf8'));
+
+						var title = obj["title"];
+							if(title.length == 0)
+								title = 'untitled';
+
+						var updated = obj["updated_time"];
+						updated = updated.slice(4,updated.length);
+						updated = updated.slice(0,-7);
+
+						var summary = obj["content"];
+						var maxl = summary.length;
+						if(maxl>20)
+							maxl=20;
+						summary = summary.slice(0, maxl);
+
+						document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>"+x+"</h5> <h4>"+title+"</h4> <p class = 'hidden-xs hidden-sm'>"+summary+"</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>"+updated+"</div></a>";
 					}
 				});
 			}
 
 			// if there is no note, show null
 			if(	document.getElementById("notelist").innerHTML == ""){
+
 				document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>Notebook</h5> <h4>"+"null"+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
 			}
 		}
@@ -121,6 +158,9 @@
 
 			var notetitle = document.getElementById("note-title");
 			notetitle.value = obj["title"];
+
+			var selectnote = document.getElementById("select-language");
+			selectnote.value = obj["type"];
 
 		}
 
