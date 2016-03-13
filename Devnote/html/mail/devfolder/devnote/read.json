@@ -1,0 +1,10 @@
+{
+    "version": "1.0",
+    "title": "read",
+    "created_time": 1457883542,
+    "updated_time": "Sun, 13 Mar 2016 15:39:02 GMT",
+    "type": "txt",
+    "important": false,
+    "trash": false,
+    "content": "## DevNote 개발 노트\n\n#### 11/03/2016\n\n\n\t불러오기 기능\n    \n```javascript\nfunction readnote() {\n\t\t\tvar notebook = document.getElementById(\"select-notebook\").value;\n\t\t\tvar dir = __dirname+'/devfolder/'+ notebook;\n\t\t\tvar fs = require('fs');\t\t\t//file write\n\t\t\t// 노트북 디렉토리 없을 시 폴더 생성\n\t\t\tif(notebook == \"모든 노트\"){\n\t\t\t\talert('모든 노트 모아보기 기능에서는 노트 저장 불가합니다');\n\t\t\t\treturn ;\n\t\t\t}\n\t\t\tif(!fs.existsSync(dir)){\n\t\t\t  fs.mkdirSync(dir);\n\t\t\t}\n\t\t\tvar editor = document.getElementById(\"markdown-editor\").contentWindow.editor;\n\t\t\tconsole.log(editor.getValue());\n\t\t\tvar myData = {\n\t\t\tversion:'1.0'\n\t\t\t};\n\t\t\t// 파일 이름에 Time stamp\n\t\t\tvar dt = new Date();\n\t\t\tvar utcDate = dt.toUTCString();\n\t\t\tif (!Date.now) {\n\t\t\t\t\tDate.now = function() { return new Date().getTime(); }\n\t\t\t}\n\t\t\tvar timestamp = Math.floor(Date.now() / 1000);\n\t\t\tvar title = document.getElementById('note-title').value;\n\t\t\tif(title.length == 0)\n\t\t\t\ttitle = 'untitled';\n\t\t\tmyData[\"title\"] =title;\n\t\t\tmyData[\"created_time\"] = timestamp;\n\t\t\tmyData[\"updated_time\"] = utcDate;\n\t\t\tmyData[\"type\"] = document.getElementById('select-language').value;\n\t\t\tmyData[\"important\"] = false;\n\t\t\tmyData[\"trash\"] = false;\n\t\t\tmyData[\"content\"] = editor.getValue();\n//\t\t\tvar outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';\n\t\t\tvar outputFilename = dir + '/' + title + '.json';\n\t\t\tfs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {\n\t\t\tif(err) {\n\t\t\tconsole.log(err);\n\t\t\t} else {\n\t\t\tconsole.log(\"JSON saved to \" + outputFilename);\n\t\t\tshowselected();\n\t\t\t}\n\t\t\t});\n\t\t}\n```"
+}
