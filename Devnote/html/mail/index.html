@@ -17,6 +17,7 @@
 		<link type="text/css" rel="stylesheet" href="../../assets/css/theme-1/font-awesome.min.css?1422529194" />
 		<link type="text/css" rel="stylesheet" href="../../assets/css/theme-1/material-design-iconic-font.min.css?1421434286" />
 		<link type="text/css" rel="stylesheet" href="../../assets/css/theme-1/libs/summernote/summernote.css?1425218701" />
+
 		<!-- END STYLESHEETS -->
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -24,7 +25,6 @@
 		<script type="text/javascript" src="../../assets/js/libs/utils/html5shiv.js?1403934957"></script>
 		<script type="text/javascript" src="../../assets/js/libs/utils/respond.min.js?1403934956"></script>
 		<![endif]-->
-		<script src="../../node_modules/angular/angular.js"></script>
 		<style>
 			#select-notebook{
 				color: rgba(49, 51, 53, 0.6);
@@ -42,11 +42,17 @@
 				padding:0px;
 				float:right;
 			}
+
+			.ui-widget-header{
+				 background: #673ab7!important;
+				 border:none!important;
+			}
+			.ui-state-default .ui-icon {
+//				background-image: url(resources/blue-cross-md.png)!important;
+			}
 		</style>
 	</head>
-
 	<body class="menubar-hoverable header-fixed menubar-first full-content ">
-
 		<!-- BEGIN HEADER-->
 		<header id="header" >
 			<div class="headerbar">
@@ -97,8 +103,6 @@
 			<!-- BEGIN CONTENT-->
 			<div id="content">
 				<section class="has-actions style-default-bright">
-
-
 					<!-- BEGIN INBOX -->
 					<div class="section-body" style="margin-top:20px;">
 						<div class="row">
@@ -125,26 +129,39 @@
 								</ul>
 							</div> --><!--end . -->
 							<!-- END INBOX NAV -->
-							
+
 							<div class="col-sm-12 col-md-12 col-lg-12" >
 								<div class="row">
 									<!-- BEGIN INBOX EMAIL LIST -->
 									<div class="col-md-3 col-lg-3 height-6 scroll-sm">
+										<div class="form-group">
+											<div style="float:left; width:30px; height:auto;margin-right:10px;">
+												<span style="font-size:0pt; line-height:0;">&nbsp;</span>
+												<button style="top:-15px;"class="btn ink-reaction btn-floating-action btn-xs btn-accent md-add" id="opener-5"></button>
+											</div>
+												<!-- END BASE -->
+												<div id="dialog-6" style="display:none;">
+													 <input type="text" class="form-control" id="notebook-title" placeholder=" 새로 추가할 노트북 이름을 입력해 주세요." value="" style="background-color:white;">
+									      </div>
 
-										<div class="form-group"  >
-											<select id="select-notebook" class="form-control" onchange="showselected()">
-											<option>모든 노트</option>
+
+											<select style="width:calc(100% - 40px);"id="select-notebook" class="form-control" onchange="showselected()">
 											<script>
+											function showNotebookList() {
 												var filesystem = require('fs');
 												var dir = __dirname+'/devfolder/';
+
+												document.getElementById("select-notebook").innerHTML = "<option>모든 노트</option>";
 												filesystem.readdirSync(dir).forEach(function(file){
 													file = dir+'/'+file;
 													var stat = filesystem.statSync(file);
 													if (stat && stat.isDirectory()){
 														var filename = file.replace(/^.*[\\\/]/, '');
-														document.write("<option>"+filename+"</option>");
+														document.getElementById("select-notebook").innerHTML += "<option>"+filename+"</option>";
+//														document.write("<option>"+filename+"</option>");
 													}
 												});
+
 												// 모든 노트일 때
 												var x = document.getElementById("select-notebook").value;
 												console.log(x);
@@ -174,6 +191,10 @@
 													}
 													defaultselection();
 												}
+											}
+											</script>
+											<script>
+												showNotebookList();
 											</script>
 										</select>
 									</div>
@@ -181,10 +202,10 @@
 										<script>
 										function showselected() {
 											var x = document.getElementById("select-notebook").value;
+											var filesystem = require('fs');
 											if(x == "모든 노트") {
 												function defaultselection(){
 													document.getElementById("notelist").innerHTML = "";
-													var filesystem = require('fs');
 													var dir = __dirname+'/devfolder/';
 													filesystem.readdirSync(dir).forEach(function(file){
 														file = dir+'/'+file;
@@ -216,6 +237,11 @@
 														document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item'> <h5>Notebook</h5> <h4>"+filename+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
 													}
 												});
+											}
+
+											// if there is no note, show null
+											if(	document.getElementById("notelist").innerHTML == ""){
+												document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item'> <h5>Notebook</h5> <h4>"+"null"+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
 											}
 										}
 										</script>
@@ -299,7 +325,7 @@
 							<a class="btn ink-reaction btn-icon-toggle" href="#"><i class="fa fa-chevron-left"></i></a>
 						</div>
 						<div class="section-floating-action-row">
-							<button class="btn ink-reaction btn-floating-action btn-lg btn-accent" href="#" onclick="createNote();">+</button>
+							<button class="btn ink-reaction btn-floating-action btn-lg btn-accent md-add" href="#" onclick="createNote();"></button>
 						</div>
 					</div>
 					<!-- END SECTION ACTION -->
@@ -412,7 +438,8 @@
 			<!-- END MENUBAR -->
 
 		</div><!--end #base-->
-		<!-- END BASE -->
+
+
 		<script>
   			window.jQuery = window.$ = require('jquery');
 		</script>
@@ -434,26 +461,24 @@
 		<script src="../../assets/js/core/source/AppVendor.js"></script>
 		<script src="../../assets/js/core/demo/Demo.js"></script>
 		<script src="../../assets/js/core/demo/DemoFormEditors.js"></script>
+		<link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+		      <!-- CSS -->
 		<script>
 		function saveNote() {
 			var notebook = document.getElementById("select-notebook").value;
 			var dir = __dirname+'/devfolder/'+ notebook;
 			var fs = require('fs');			//file write
-
 			// 노트북 디렉토리 없을 시 폴더 생성
 			if(!fs.existsSync(dir)){
 			  fs.mkdirSync(dir);
 			}
-
 			var editor = document.getElementById("markdown-editor").contentWindow.editor;
-
 			console.log(editor.getValue());
-
-
 			var myData = {
 			version:'1.0'
 			};
-
 			// 파일 이름에 Time stamp
 			var dt = new Date();
 			var utcDate = dt.toUTCString();
@@ -468,10 +493,8 @@
 			myData["important"] = false;
 			myData["trash"] = false;
 			myData["content"] = editor.getValue();
-
 //			var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
 			var outputFilename = dir + '/' + String(timestamp) + '.json';
-
 			fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
 			if(err) {
 			console.log(err);
@@ -479,7 +502,6 @@
 			console.log("JSON saved to " + outputFilename);
 			}
 			});
-
 		}
 		</script>
 		<script>
@@ -487,25 +509,20 @@
 			var notebook = document.getElementById("select-notebook").value;
 			var dir = __dirname+'/devfolder/'+ notebook;
 			var fs = require('fs');			//file write
-
 			// 노트북 디렉토리 없을 시 폴더 생성
 			if(notebook == "모든 노트"){
 				alert('모든 노트 모아보기 기능에서는 노트 추가가 불가합니다');
 				return ;
 			}
-
 			if(!fs.existsSync(dir)){
 			  fs.mkdirSync(dir);
 			}
-
 			document.getElementById('note-title').value = "";
 			var editor = document.getElementById("markdown-editor").contentWindow.editor;
 			editor.setValue("");
-
 			var myData = {
 			version:'1.0'
 			};
-
 			// 파일 이름에 Time stamp
 			var dt = new Date();
 			var utcDate = dt.toUTCString();
@@ -520,10 +537,8 @@
 			myData["important"] = false;
 			myData["trash"] = false;
 			myData["content"] = editor.getValue();
-
 //			var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
 			var outputFilename = dir + '/' + String(timestamp) + '.json';
-
 			fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
 			if(err) {
 			console.log(err);
@@ -532,7 +547,6 @@
 			showselected();
 			}
 			});
-
 		}
 		</script>
 
@@ -567,10 +581,89 @@
 					document.getElementById('markdown-editor').contentWindow.showMenu();
 				});
 				$("#btn-delete").click(function(){
-
 				});
 		});
 		</script>
+		<script type="text/javascript">
+     $(function(){
+        $( "#dialog-6" ).dialog({
+     autoOpen: false,
+           buttons: {
+              OK: function() {
+                 $( this ).dialog( "close" );
+              }
+           },
+           beforeClose: function( event, ui ) {
+						 var x = document.getElementById("notebook-title").value;
+						 if (! (/\S/.test(x))) {
+								alert("노트북 이름이 비었습니다.");
+                 event.preventDefault();
+                 $( "[for=terms]" ).addClass( "invalid" );
+            	}
+							else if ( x == "모든 노트"){
+								 alert(x + " 은(는) 노트북 이름이 될 수 없습니다.");
+							}
+						else{ // create new notebook
+							createNotebook(x);
+						}
+           },
+           width: 600
+        });
+        $( "#opener-5" ).click(function() {
+           $( "#dialog-6" ).dialog( "open" );
+        });
+     });
+    </script>
+		<script>
+		function createNotebook(notebook) {
+			var dir = __dirname+'/devfolder/'+ notebook;
+			var fs = require('fs');			//file write
+			// 노트북 디렉토리 없을 시 폴더 생성
+			if(notebook == "모든 노트"){
+				alert('모든 노트 모아보기 기능에서는 노트 추가가 불가합니다');
+				return ;
+			}
+			if(!fs.existsSync(dir)){
+			  fs.mkdirSync(dir);
+			}
+			document.getElementById('note-title').value = "";
+			var editor = document.getElementById("markdown-editor").contentWindow.editor;
+			editor.setValue("");
+
+
+//
+			var myData = {
+			version:'1.0'
+			};
+			// 파일 이름에 Time stamp
+			var dt = new Date();
+			var utcDate = dt.toUTCString();
+			if (!Date.now) {
+					Date.now = function() { return new Date().getTime(); }
+			}
+			var timestamp = Math.floor(Date.now() / 1000);
+			myData["title"] = document.getElementById('note-title').value;
+			myData["created_time"] = timestamp;
+			myData["updated_time"] = utcDate;
+			myData["type"] = document.getElementById('select-language').value;
+			myData["important"] = false;
+			myData["trash"] = false;
+			myData["content"] = editor.getValue();
+
+			var outputFilename = dir + '/' + String(timestamp) + '.json';
+			fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
+			if(err) {
+			console.log(err);
+			} else {
+			console.log("JSON saved to " + outputFilename);
+			}
+			});
+			showNotebookList();
+			document.getElementById("select-notebook").value = notebook;
+			showselected();
+		}
+		</script>
+
 
 	</body>
 </html>
