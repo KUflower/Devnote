@@ -25,6 +25,110 @@
 		<script type="text/javascript" src="../../assets/js/libs/utils/html5shiv.js?1403934957"></script>
 		<script type="text/javascript" src="../../assets/js/libs/utils/respond.min.js?1403934956"></script>
 		<![endif]-->
+		<script>
+  			window.jQuery = window.$ = require('jquery');
+		</script>
+		<script src="../../node_modules/angular/angular.js"></script>
+		<script>
+		function defaultselection(){
+
+			document.getElementById("notelist").innerHTML = "";
+			var filesystem = require('fs');
+			var dir = __dirname+'/devfolder/';
+			filesystem.readdirSync(dir).forEach(function(file){
+				file = dir+'/'+file;
+				var stat = filesystem.statSync(file);
+				if (stat && stat.isDirectory()){
+					var filename = file.replace(/^.*[\\\/]/, '');
+					var dir2 = dir+filename+'/';
+					filesystem.readdirSync(dir2).forEach(function(file){
+						file = dir2+'/'+file;
+						stat = filesystem.statSync(file);
+						var filename2 = file.replace(/^.*[\\\/]/, '');
+
+						if (filename2 != '.DS_Store'){
+
+							var notelistelement = "<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>Notebook</h5> <h4>"+filename2+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
+							document.getElementById("notelist").innerHTML+=String(notelistelement);
+						}
+					});
+				}
+			});
+		}
+		</script>
+
+		<script>
+		function showNotebookList() {
+			var filesystem = require('fs');
+			var dir = __dirname+'/devfolder/';
+
+			document.getElementById("select-notebook").innerHTML = "<option>모든 노트</option>";
+			filesystem.readdirSync(dir).forEach(function(file){
+				file = dir+'/'+file;
+				var stat = filesystem.statSync(file);
+				if (stat && stat.isDirectory()){
+					var filename = file.replace(/^.*[\\\/]/, '');
+					document.getElementById("select-notebook").innerHTML += "<option>"+filename+"</option>";
+				}
+			});
+
+			// 모든 노트일 때
+			var x = document.getElementById("select-notebook").value;
+			console.log(x);
+			if (x == "모든 노트"){
+				
+				defaultselection();
+			}
+		}
+		</script>
+
+		<script>
+		function showselected() {
+			var x = document.getElementById("select-notebook").value;
+			var filesystem = require('fs');
+			if(x == "모든 노트") {
+				
+				defaultselection();
+			}
+			else{
+				dir = __dirname+'/devfolder/'+x+'/';
+				document.getElementById("notelist").innerHTML = "";
+				filesystem.readdirSync(dir).forEach(function(file){
+					file = dir+'/'+file;
+					stat = filesystem.statSync(file);
+					filename = file.replace(/^.*[\\\/]/, '');
+					if (filename != '.DS_Store'){
+						document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>Notebook</h5> <h4>"+filename+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
+					}
+				});
+			}
+
+			// if there is no note, show null
+			if(	document.getElementById("notelist").innerHTML == ""){
+				document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>Notebook</h5> <h4>"+"null"+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
+			}
+		}
+		</script>
+
+		<script>
+			function shownote(file) {
+
+			var fs = require('fs');
+			var obj = JSON.parse(fs.readFileSync(file, 'utf8'));
+
+			var editor = document.getElementById("markdown-editor").contentWindow.editor;
+			editor.setValue(obj["content"]);
+
+			var notetitle = document.getElementById("note-title");
+			notetitle.value = obj["title"];
+
+		}
+
+		function test(d){
+			console.log('hi'+d);
+		}
+		</script>
+
 		<style>
 			#select-notebook{
 				color: rgba(49, 51, 53, 0.6);
@@ -48,7 +152,7 @@
 				 border:none!important;
 			}
 			.ui-state-default .ui-icon {
-//				background-image: url(resources/blue-cross-md.png)!important;
+				background-image: url(resources/blue-cross-md.png)!important;
 			}
 		</style>
 	</head>
@@ -131,7 +235,7 @@
 							<!-- END INBOX NAV -->
 
 							<div class="col-sm-12 col-md-12 col-lg-12" >
-								<div class="row">
+								<div class="row" ng-app="myApp" ng-controller="noteCtrl">
 									<!-- BEGIN INBOX EMAIL LIST -->
 									<div class="col-md-3 col-lg-3 height-6 scroll-sm">
 										<div class="form-group">
@@ -146,108 +250,48 @@
 
 
 											<select style="width:calc(100% - 40px);"id="select-notebook" class="form-control" onchange="showselected()">
-											<script>
-											function showNotebookList() {
-												var filesystem = require('fs');
-												var dir = __dirname+'/devfolder/';
-
-												document.getElementById("select-notebook").innerHTML = "<option>모든 노트</option>";
-												filesystem.readdirSync(dir).forEach(function(file){
-													file = dir+'/'+file;
-													var stat = filesystem.statSync(file);
-													if (stat && stat.isDirectory()){
-														var filename = file.replace(/^.*[\\\/]/, '');
-														document.getElementById("select-notebook").innerHTML += "<option>"+filename+"</option>";
-//														document.write("<option>"+filename+"</option>");
-													}
-												});
-
-												// 모든 노트일 때
-												var x = document.getElementById("select-notebook").value;
-												console.log(x);
-												if (x == "모든 노트"){
-													function defaultselection(){
-														window.onload=function(){
-															document.getElementById("notelist").innerHTML = "";
-															var filesystem = require('fs');
-															var dir = __dirname+'/devfolder/';
-															filesystem.readdirSync(dir).forEach(function(file){
-																file = dir+'/'+file;
-																var stat = filesystem.statSync(file);
-																if (stat && stat.isDirectory()){
-																	var filename = file.replace(/^.*[\\\/]/, '');
-																	var dir2 = dir+filename+'/';
-																	filesystem.readdirSync(dir2).forEach(function(file){
-																		file = dir2+'/'+file;
-																		stat = filesystem.statSync(file);
-																		var filename2 = file.replace(/^.*[\\\/]/, '');
-																		if (filename2 != '.DS_Store'){
-																			document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item'> <h5>Notebook</h5> <h4>"+filename2+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
-																		}
-																	});
-																}
-															});
-														}
-													}
-													defaultselection();
-												}
-											}
-											</script>
-											<script>
-												showNotebookList();
-											</script>
+											
 										</select>
 									</div>
 										<div id = "notelist" class="list-group list-email list-gray">
-										<script>
-										function showselected() {
-											var x = document.getElementById("select-notebook").value;
-											var filesystem = require('fs');
-											if(x == "모든 노트") {
-												function defaultselection(){
-													document.getElementById("notelist").innerHTML = "";
-													var dir = __dirname+'/devfolder/';
-													filesystem.readdirSync(dir).forEach(function(file){
-														file = dir+'/'+file;
-														var stat = filesystem.statSync(file);
-														if (stat && stat.isDirectory()){
-															var filename = file.replace(/^.*[\\\/]/, '');
-															var dir2 = dir+filename+'/';
-																filesystem.readdirSync(dir2).forEach(function(file){
-																	file = dir2+'/'+file;
-																	stat = filesystem.statSync(file);
-																	var filename2 = file.replace(/^.*[\\\/]/, '');
-																	if (filename2 != '.DS_Store'){
-																		document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item'> <h5>Notebook</h5> <h4>"+filename2+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
-																		}
-																	});
-																}
-															});
-													}
-												defaultselection();
-											}
-											else{
-												dir = __dirname+'/devfolder/'+x+'/';
-												document.getElementById("notelist").innerHTML = "";
-												filesystem.readdirSync(dir).forEach(function(file){
-													file = dir+'/'+file;
-													stat = filesystem.statSync(file);
-													filename = file.replace(/^.*[\\\/]/, '');
-													if (filename != '.DS_Store'){
-														document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item'> <h5>Notebook</h5> <h4>"+filename+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
-													}
-												});
-											}
-
-											// if there is no note, show null
-											if(	document.getElementById("notelist").innerHTML == ""){
-												document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item'> <h5>Notebook</h5> <h4>"+"null"+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
-											}
-										}
-										</script>
+										
 										</div><!--end .list-group -->
 									</div><!--end .col -->
 									<!-- END INBOX EMAIL LIST -->
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('noteCtrl', function($scope, $http, $compile) {
+
+	// $scope.$watch('$viewContentLoaded', function() {
+
+ //    // alert('3');
+    console.log('start');
+	// });
+	$scope.$watch('$viewContentLoaded', function() {
+
+		console.log('loaded');
+		// var $elem = angular.element("#note-title");
+		// $elem.replaceWith($compile($elem)($scope));
+	});
+
+
+	$scope.noteclick = function(data) {
+
+		//read file
+		var dir = __dirname+'/devfolder/f';
+		file = dir+'/'+data + '.json';
+
+		// var fs = require('fs');
+		// var obj = JSON.parse(fs.readFileSync('file', 'utf8'));
+		var editor = document.getElementById("markdown-editor").contentWindow.editor;
+		editor.setValue('this: '+file);
+
+	};
+	
+    
+});
+</script>
 
 									<div class="col-sm-12 col-md-9 col-lg-5">
 										<div class="form-group floating-label">
@@ -322,7 +366,7 @@
 					<!-- BEGIN SECTION ACTION -->
 					<div class="section-action style-primary">
 						<div class="section-action-row">
-							<a class="btn ink-reaction btn-icon-toggle" href="#"><i class="fa fa-chevron-left"></i></a>
+							<a class="btn ink-reaction btn-icon-toggle" onClick="test('.json')"href="#"><i class="fa fa-chevron-left"></i></a>
 						</div>
 						<div class="section-floating-action-row">
 							<button class="btn ink-reaction btn-floating-action btn-lg btn-accent md-add" href="#" onclick="createNote();"></button>
@@ -439,10 +483,6 @@
 
 		</div><!--end #base-->
 
-
-		<script>
-  			window.jQuery = window.$ = require('jquery');
-		</script>
 		<script src="../../assets/js/libs/jquery/jquery-1.11.2.min.js"></script>
 		<script src="../../assets/js/libs/jquery/jquery-migrate-1.2.1.min.js"></script>
 		<script src="../../assets/js/libs/bootstrap/bootstrap.min.js"></script>
@@ -664,6 +704,12 @@
 		}
 		</script>
 
+		<!-- init -->
+		<script type="text/javascript">
+
+		showNotebookList();
+		// defaultselection();
+		</script>
 
 	</body>
 </html>
