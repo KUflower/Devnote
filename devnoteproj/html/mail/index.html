@@ -17,7 +17,6 @@
 		<link type="text/css" rel="stylesheet" href="../../assets/css/theme-1/font-awesome.min.css?1422529194" />
 		<link type="text/css" rel="stylesheet" href="../../assets/css/theme-1/material-design-iconic-font.min.css?1421434286" />
 		<link type="text/css" rel="stylesheet" href="../../assets/css/theme-1/libs/summernote/summernote.css?1425218701" />
-
 		<!-- END STYLESHEETS -->
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -93,7 +92,7 @@
 			var x = document.getElementById("select-notebook").value;
 			console.log(x);
 			if (x == "모든 노트"){
-				
+
 				defaultselection();
 			}
 		}
@@ -104,7 +103,7 @@
 			var x = document.getElementById("select-notebook").value;
 			var filesystem = require('fs');
 			if(x == "모든 노트") {
-				
+
 				defaultselection();
 			}
 			else{
@@ -142,7 +141,7 @@
 			// if there is no note, show null
 			if(	document.getElementById("notelist").innerHTML == ""){
 
-				document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>Notebook</h5> <h4>"+"null"+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
+//				document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>Notebook</h5> <h4>"+"null"+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
 			}
 		}
 		</script>
@@ -290,11 +289,11 @@
 
 
 											<select style="width:calc(100% - 40px);"id="select-notebook" class="form-control" onchange="showselected()">
-											
+
 										</select>
 									</div>
 										<div id = "notelist" class="list-group list-email list-gray">
-										
+
 										</div><!--end .list-group -->
 									</div><!--end .col -->
 									<!-- END INBOX EMAIL LIST -->
@@ -328,8 +327,8 @@ app.controller('noteCtrl', function($scope, $http, $compile) {
 		editor.setValue('this: '+file);
 
 	};
-	
-    
+
+
 });
 </script>
 
@@ -600,16 +599,19 @@ app.controller('noteCtrl', function($scope, $http, $compile) {
 			var fs = require('fs');			//file write
 			// 노트북 디렉토리 없을 시 폴더 생성
 			if(notebook == "모든 노트"){
-				console.log("error 모든");
 				alert('모든 노트 모아보기 기능에서는 노트 추가가 불가합니다');
 				return ;
 			}
 			if(!fs.existsSync(dir)){
-			  fs.mkdirSync(dir);
+				alert('존재하지 않는 노트북에 있습니다.');
+				return ;
 			}
+
+			// set current page blank
 			document.getElementById('note-title').value = "";
 			var editor = document.getElementById("markdown-editor").contentWindow.editor;
 			editor.setValue("");
+
 			var myData = {
 			version:'1.0'
 			};
@@ -623,7 +625,7 @@ app.controller('noteCtrl', function($scope, $http, $compile) {
 			var title = document.getElementById('note-title').value;
 			if(title.length == 0)
 				title = 'untitled';
-			myData["title"] =title;
+			myData["title"] = title;
 			myData["created_time"] = timestamp;
 			myData["updated_time"] = utcDate;
 			myData["type"] = document.getElementById('select-language').value;
@@ -631,14 +633,14 @@ app.controller('noteCtrl', function($scope, $http, $compile) {
 			myData["trash"] = false;
 			myData["content"] = editor.getValue();
 //			var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
-			var outputFilename = dir + '/' + title + '.json';
+			var outputFilename = dir + '/' + myData["title"] + '.json';
 			fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
-			if(err) {
-			console.log(err);
-			} else {
-			console.log("JSON saved to " + outputFilename);
-			showselected();
-			}
+				if(err) {
+				console.log(err);
+				} else {
+				console.log("JSON saved to " + outputFilename);
+				showselected();
+				}
 			});
 		}
 		</script>
@@ -678,6 +680,37 @@ app.controller('noteCtrl', function($scope, $http, $compile) {
 		});
 		</script>
 		<script type="text/javascript">
+/*
+		$(function(){
+			 $( "#dialog-6" ).dialog({
+		autoOpen: false,
+					buttons: {
+						 OK: function() {
+								$( this ).dialog( "close" );
+						 }
+					},
+					beforeClose: function( event, ui ) {
+						var x = document.getElementById("notebook-title").value;
+						if (! (/\S/.test(x))) {
+							 alert("노트북 이름이 비었습니다.");
+								event.preventDefault();
+								$( "[for=terms]" ).addClass( "invalid" );
+						 }
+						 else if ( x == "모든 노트"){
+								alert(x + " 은(는) 노트북 이름이 될 수 없습니다.");
+						 }
+					 else{ // create new notebook
+						 createNotebook(x);
+					 }
+					},
+					width: 600
+			 });
+			 $( "#opener-5" ).click(function() {
+					$( "#dialog-6" ).dialog( "open" );
+			 });
+		});
+*/
+
      $(function(){
         $( "#dialog-6" ).dialog({
      autoOpen: false,
@@ -696,9 +729,9 @@ app.controller('noteCtrl', function($scope, $http, $compile) {
 							else if ( x == "모든 노트"){
 								 alert(x + " 은(는) 노트북 이름이 될 수 없습니다.");
 							}
-						else{ // create new notebook
-							createNotebook(x);
-						}
+							else{ // create new notebook
+								createNotebook(x);
+							}
            },
            width: 600
         });
@@ -706,25 +739,30 @@ app.controller('noteCtrl', function($scope, $http, $compile) {
            $( "#dialog-6" ).dialog( "open" );
         });
      });
+
+
     </script>
 		<script>
 		function createNotebook(notebook) {
-			var dir = __dirname+'/devfolder/'+ notebook;
+			var dir = __dirname + '/devfolder/'+ notebook;
 			var fs = require('fs');			//file write
 			// 노트북 디렉토리 없을 시 폴더 생성
-			if(notebook == "모든 노트"){
-				alert('모든 노트 모아보기 기능에서는 노트 추가가 불가합니다');
-				return ;
-			}
 			if(!fs.existsSync(dir)){
 			  fs.mkdirSync(dir);
 			}
+			else{
+				alert('이미 존재하는 노트북입니다.');
+				return ;
+			}
+
+			showNotebookList();
+			document.getElementById("select-notebook").value = notebook;
+
+			// set current page blank
 			document.getElementById('note-title').value = "";
 			var editor = document.getElementById("markdown-editor").contentWindow.editor;
 			editor.setValue("");
 
-
-//
 			var myData = {
 			version:'1.0'
 			};
@@ -735,25 +773,25 @@ app.controller('noteCtrl', function($scope, $http, $compile) {
 					Date.now = function() { return new Date().getTime(); }
 			}
 			var timestamp = Math.floor(Date.now() / 1000);
-			myData["title"] = document.getElementById('note-title').value;
+			var title = document.getElementById('note-title').value;
+			if(title.length == 0)
+				title = 'untitled';
+			myData["title"] = title;
 			myData["created_time"] = timestamp;
 			myData["updated_time"] = utcDate;
 			myData["type"] = document.getElementById('select-language').value;
 			myData["important"] = false;
 			myData["trash"] = false;
 			myData["content"] = editor.getValue();
-
-			var outputFilename = dir + '/' + notebook + '.json';
+			var outputFilename = dir + '/' + myData["title"] + '.json';
 			fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
-			if(err) {
-			console.log(err);
-			} else {
-			console.log("JSON saved to " + outputFilename);
-			}
+				if(err) {
+				console.log(err);
+				} else {
+				console.log("JSON saved to " + outputFilename);
+				showselected();
+				}
 			});
-			showNotebookList();
-			document.getElementById("select-notebook").value = notebook;
-			showselected();
 		}
 		</script>
 
