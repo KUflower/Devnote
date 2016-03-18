@@ -43,9 +43,9 @@ plain text 기반이기 때문에 검색과 git을 사용하는데 문제가 없
 <img src="ui/e.code2.png" width="500" />
 
 ##시연 영상
-[link here](https://youtu.be/uARtQyFyqEM)
+[link here](https://youtu.be/oTkC63m_qcw)
 ```
-https://youtu.be/uARtQyFyqEM
+https://youtu.be/oTkC63m_qcw
 ```
 
 ##개발
