@@ -64,9 +64,8 @@ If the item was created using materials which are the subject of a GNU General P
 >Copyright (c) 2016 jQuery Foundation
 License: MIT
 
-**[marked](https://github.com/chjj/marked)**
->Copyright (c) 2011-2014, Christopher Jeffrey.
-License: MIT
+**[markdown-editor](https://github.com/jbt/markdown-editor)**
+>License: WTFPL
 
 **[MathJax](http://www.mathjax.org/)**
 >Copyright (c) 2009-2013 The MathJax Consortium
@@ -75,6 +74,7 @@ License: Apache 2.0
 **[vkBeautify](http://www.eslinstructor.net/vkbeautify/)**
 >Copyright (c) 2012 Vadim Kiryukhin ( vkiryukhin @ gmail.com )
 License: Dual licensed under the MIT (see below) and GPL licenses
+
 
 ##향후 계획
 추후 계정 설정 및 공유가 가능하도록 만들 계획이다.
