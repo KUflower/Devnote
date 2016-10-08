@@ -147,7 +147,7 @@
                                         <div id="dialog-6" style="display:none;">
                                             <input type="text" class="form-control" id="notebook-title" placeholder=" 새로 추가할 노트북 이름을 입력해 주세요." value="" style="background-color:white;">
                                         </div>
-                                        <select style="width:calc(100% - 40px);" id="select-notebook" class="form-control" onchange="showselected()">
+                                        <select style="width:calc(100% - 40px);" id="select-notebook" class="form-control" onchange="showNoteList($(this).val())">
                                         </select>
                                     </div>
                                     <div id="notelist" class="list-group list-email list-gray">
@@ -192,6 +192,7 @@
                                 <div class="col-sm-12 col-md-9 col-lg-5">
                                     <div class="form-group floating-label">
                                         <input type="text" class="form-control" id="note-title" placeholder="제목 없음" value="">
+                                        <input type="text" style="display:none" id="origin-note-path" value="">
                                         <label></label>
                                     </div>
                                 </div>

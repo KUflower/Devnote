@@ -1,0 +1,10 @@
+{
+    "version": "1.0",
+    "title": "새로 만든 노트!!!!!!",
+    "created_time": 1475931561,
+    "updated_time": "Sat, 08 Oct 2016 12:59:21 GMT",
+    "type": "txt",
+    "important": false,
+    "trash": false,
+    "content": "```javscript\n\nvar fs = require('fs')\n\nfs.readFile(\"~/var/www/temp/a.txt\", function(err, buf){\n\ts\n})\n\n```"
+}
