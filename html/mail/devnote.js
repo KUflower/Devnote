@@ -105,7 +105,7 @@ function showselected() {
     // if there is no note, show null
     if (document.getElementById("notelist").innerHTML == "") {
 
-        //				document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>Notebook</h5> <h4>"+"null"+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
+        //              document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>Notebook</h5> <h4>"+"null"+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
     }
 }
 
@@ -166,7 +166,7 @@ function saveNote() {
     myData["important"] = false;
     myData["trash"] = false;
     myData["content"] = editor.getValue();
-    //			var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
+    //          var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
     var outputFilename = dir + '/' + title + '.json';
     fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
         if (err) {
@@ -219,7 +219,7 @@ function createNote() {
     myData["important"] = false;
     myData["trash"] = false;
     myData["content"] = editor.getValue();
-    //			var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
+    //          var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
     var outputFilename = dir + '/' + myData["title"] + '.json';
     fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
         if (err) {
@@ -283,7 +283,6 @@ function createNotebook(notebook) {
     });
 }
 $(document).ready(function() {
-    //
 
     $("#btn-edit").click(function() {
         document.getElementById('markdown-editor').contentWindow.document.getElementById("in").style.display = "inline";
@@ -292,17 +291,20 @@ $(document).ready(function() {
         document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.left = "50%";
         document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.width = "auto";
     });
+
     $("#btn-markdown").click(function() {
         document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.display = "none";
         document.getElementById('markdown-editor').contentWindow.document.getElementById("in").style.display = "inline";
         document.getElementById('markdown-editor').contentWindow.document.getElementById("in").style.width = "100%";
     });
+
     $("#btn-preview").click(function() {
         document.getElementById('markdown-editor').contentWindow.document.getElementById("in").style.display = "none";
         document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.display = "inline";
         document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.left = "0%";
         document.getElementById('markdown-editor').contentWindow.document.getElementById("out").style.width = "auto";
     });
+
     $("#btn-save").click(function() {
         var notebook = document.getElementById("select-notebook").value;
         if (notebook != "모든 노트") {
@@ -310,10 +312,14 @@ $(document).ready(function() {
         }
         // showselected();
     });
+
     $("#btn-download").click(function() {
         document.getElementById('markdown-editor').contentWindow.showMenu();
     });
-    $("#btn-delete").click(function() {});
+
+    $("#btn-delete").click(function() {
+
+    });
 
     $("#dialog-6").dialog({
         autoOpen: false,
@@ -336,10 +342,13 @@ $(document).ready(function() {
         },
         width: 600
     });
+
     $("#opener-5").click(function() {
         $("#dialog-6").dialog("open");
     });
+
     //init
     showNotebookList();
     // defaultselection();
+
 });
