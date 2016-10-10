@@ -52,15 +52,9 @@ function showNoteList(notebookName){
 
 function showNotebookList() {
 
-<<<<<<< HEAD
-        //              document.getElementById("notelist").innerHTML+="<a href='#' class='list-group-item' onclick=shownote('"+file+"')> <h5>Notebook</h5> <h4>"+"null"+"</h4> <p class = 'hidden-xs hidden-sm'>Summary</p> <div class = 'stick-top-right small-padding text-default-light text-sm'>10:30pm</div></a>";
-    }
-}
-=======
     var rootDir = path.join(__dirname, 'devfolder')
     var notebookList = $("#select-notebook")
     notebookList.html('<option>모든 노트</option>')
->>>>>>> working
 
     fs.readdirSync(rootDir).forEach(function(notebook) {
         var notebookPath = path.join(rootDir, notebook)
@@ -114,30 +108,6 @@ function saveNote() {
         trash       : false,
         content     : document.getElementById("markdown-editor").contentWindow.editor.getValue()
     }
-<<<<<<< HEAD
-    var timestamp = Math.floor(Date.now() / 1000);
-    var title = document.getElementById('note-title').value;
-    if (title.length == 0)
-        title = 'untitled';
-    myData["title"] = title;
-    myData["created_time"] = timestamp;
-    myData["updated_time"] = utcDate;
-    myData["type"] = document.getElementById('select-language').value;
-    myData["important"] = false;
-    myData["trash"] = false;
-    myData["content"] = editor.getValue();
-    //          var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
-    var outputFilename = dir + '/' + title + '.json';
-    fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log("JSON saved to " + outputFilename);
-            showselected();
-        }
-    });
-=======
-
     var noteDir = path.join(notebookDir, noteTitle+'.json')
     var originNoteDir  = $("#origin-note-path").val()
 
@@ -147,7 +117,6 @@ function saveNote() {
     .then(function(){ return $("#origin-note-path").val(noteDir) })
     .then(function(){ return showNoteList(notebookName) })
     .catch(function(err){ return console.log(err) })
->>>>>>> working
 }
 
 function createNote() {
@@ -167,40 +136,6 @@ function createNote() {
     document.getElementById('markdown-editor').contentWindow.editor.setValue("")
 }
 
-<<<<<<< HEAD
-    var myData = {
-        version: '1.0'
-    };
-    // 파일 이름에 Time stamp
-    var dt = new Date();
-    var utcDate = dt.toUTCString();
-    if (!Date.now) {
-        Date.now = function() {
-            return new Date().getTime();
-        }
-    }
-    var timestamp = Math.floor(Date.now() / 1000);
-    var title = document.getElementById('note-title').value;
-    if (title.length == 0)
-        title = 'untitled';
-    myData["title"] = title;
-    myData["created_time"] = timestamp;
-    myData["updated_time"] = utcDate;
-    myData["type"] = document.getElementById('select-language').value;
-    myData["important"] = false;
-    myData["trash"] = false;
-    myData["content"] = editor.getValue();
-    //          var outputFilename = __dirname + '/devfolder/' + String(timestamp) + '.json';
-    var outputFilename = dir + '/' + myData["title"] + '.json';
-    fs.writeFile(outputFilename, JSON.stringify(myData, null, 4), function(err) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log("JSON saved to " + outputFilename);
-            showselected();
-        }
-    });
-=======
 function deleteNote(){
     var originNoteDir = $('#origin-note-path').val()
     if(!originNoteDir){ return }
@@ -216,7 +151,6 @@ function deleteNote(){
         return alert("노트 삭제에 실패하였습니다.")
     })
     .catch(console.log)
->>>>>>> working
 }
 
 function createNotebook(notebook) {
@@ -270,9 +204,6 @@ function createNotebook(notebook) {
     });
 }
 $(document).ready(function() {
-<<<<<<< HEAD
-
-=======
     var setMarkdownEditorCss = function(obj){
         for(var id in obj){
             for(var attr in obj[id]){
@@ -282,7 +213,6 @@ $(document).ready(function() {
         }
         
     }
->>>>>>> working
     $("#btn-edit").click(function() {
         var style = {
             in : {
@@ -343,16 +273,10 @@ $(document).ready(function() {
     $("#btn-download").click(function() {
         document.getElementById('markdown-editor').contentWindow.showMenu();
     });
-<<<<<<< HEAD
-
-    $("#btn-delete").click(function() {
-
-=======
     $("#btn-delete").click(function() {
         if(confirm("노트를 삭제하시겠습니까?")){
             return deleteNote()
         }
->>>>>>> working
     });
 
     $("#dialog-6").dialog({ // BeforeClose is not good event for vaildation checking.
@@ -390,11 +314,6 @@ $(document).ready(function() {
 
     //init
     showNotebookList();
-<<<<<<< HEAD
-    // defaultselection();
-
-=======
->>>>>>> working
 });
 
 function test(d) {
