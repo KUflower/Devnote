@@ -31,6 +31,7 @@ app.on('ready', function() {
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname +'/html/mail/index.html');
+  // mainWindow.loadURL('file://' + __dirname +'/html/mail/markdown-editor.html');
   // '/html/mail/inbox.html'
 
   // Emitted when the window is closed.

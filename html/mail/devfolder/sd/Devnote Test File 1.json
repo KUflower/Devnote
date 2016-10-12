@@ -1,0 +1,10 @@
+{
+    "version": "1.0",
+    "title": "Devnote Test File 1",
+    "created_time": 1476285664,
+    "updated_time": "Wed, 12 Oct 2016 15:21:04 GMT",
+    "type": "txt",
+    "important": false,
+    "trash": false,
+    "content": "# Devnote\n## for Test..\n\n``` javascript \n\"use strict\"\nconsole.log(\"Start DevNote\")\n\n// Import Node-Module\nlet fs = require('fs')\nlet path = require('path')\n\nconst BASE_DIR = path(__dirname, 'devfolder')\n\nconsole.log(\"Base Directory: \" + BASE_DIR)\n```\n\n### 이걸 뭘 써야되는거냐?????"
+}

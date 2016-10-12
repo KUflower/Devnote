@@ -211,8 +211,19 @@ $(document).ready(function() {
                 .document.getElementById(id).style[attr] = obj[id][attr]
             }
         }
-        
     }
+    $(window).on('resize', function(){
+        var devnoteHeight = $(window).height() - 250
+        $('#notelist').slimScroll({
+            height  : devnoteHeight,
+            color   : '#333'
+        })
+    })
+    $('#notelist').slimScroll({
+        height  : 'auto',
+        color   : '#333'
+    })
+
     $("#btn-edit").click(function() {
         var style = {
             in : {
