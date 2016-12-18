@@ -5433,6 +5433,17 @@
     return info || {mode: mode, state: state};
   };
 
+/*
+  var setMarkdownEditorCss = function(obj){
+      for(var id in obj){
+          for(var attr in obj[id]){
+              document.getElementById('markdown-editor').contentWindow
+              .document.getElementById(id).style[attr] = obj[id][attr]
+          }
+      }
+
+  }
+*/
   // STANDARD COMMANDS
 
   // Commands are parameter-less actions that can be performed on an
@@ -5588,6 +5599,30 @@
         }
       });
     },
+    markdownPreview: function() {
+
+//        document.getElementById('in').style['display'] = 'none';
+        document.getElementById('in').style['width'] = '0px';
+        
+        document.getElementById('out').style['display'] = 'inline';
+        document.getElementById('out').style['left'] = '0%';
+        document.getElementById('out').style['width'] = 'auto';
+
+    },
+    markdownEditor: function() {
+        console.log("markdonwEditor");
+
+        document.getElementById('in').style['display'] = 'inline';
+        document.getElementById('in').style['width'] = '100%';
+        document.getElementById('out').style['display'] = 'none';
+    },
+    multitasking: function() {
+        document.getElementById('in').style['display'] = 'inline';
+        document.getElementById('in').style['width'] = '50%';
+        document.getElementById('out').style['display'] = 'inline';
+        document.getElementById('out').style['left'] = '50%';
+        document.getElementById('out').style['width'] = 'auto';
+    },
     toggleOverwrite: function(cm) {cm.toggleOverwrite();}
   };
 
@@ -5632,6 +5667,7 @@
     "Cmd-G": "findNext", "Shift-Cmd-G": "findPrev", "Cmd-Alt-F": "replace", "Shift-Cmd-Alt-F": "replaceAll",
     "Cmd-[": "indentLess", "Cmd-]": "indentMore", "Cmd-Backspace": "delWrappedLineLeft", "Cmd-Delete": "delWrappedLineRight",
     "Cmd-U": "undoSelection", "Shift-Cmd-U": "redoSelection", "Ctrl-Up": "goDocStart", "Ctrl-Down": "goDocEnd",
+    "Cmd-Alt-Left":"markdownEditor","Cmd-Alt-Right":"markdownPreview","Cmd-Alt-Up":"multitasking",
     fallthrough: ["basic", "emacsy"]
   };
   keyMap["default"] = mac ? keyMap.macDefault : keyMap.pcDefault;

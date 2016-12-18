@@ -38,7 +38,7 @@ function showNoteList(notebookName){
             var summary = noteObj.content.replace(/<[^\/].*?\/>/, '').substring(0, 40)
             noteDir = noteDir.replace(/\\/g, '\\\\')
 
-            var noteListHtml = 
+            var noteListHtml =
                 `<a href="#" class="list-group-item" onclick="showNote('{noteDir}')">
                     <h5>{notebook}</h5>
                     <h4>{title}</h4>
@@ -203,7 +203,9 @@ function createNotebook(notebook) {
         }
     });
 }
+
 $(document).ready(function() {
+
     var setMarkdownEditorCss = function(obj){
         for(var id in obj){
             for(var attr in obj[id]){
@@ -211,7 +213,7 @@ $(document).ready(function() {
                 .document.getElementById(id).style[attr] = obj[id][attr]
             }
         }
-        
+
     }
     $("#btn-edit").click(function() {
         var style = {
@@ -223,7 +225,7 @@ $(document).ready(function() {
                 display : 'inline',
                 left    : '50%',
                 width   : 'auto'
-            } 
+            }
         }
         return setMarkdownEditorCss(style)
     });
@@ -242,15 +244,18 @@ $(document).ready(function() {
     });
 
     $("#btn-preview").click(function() {
+        console.log("l");
         var style = {
             in : {
-                display : 'none'
+//                display : 'none'
+                display: 'inline',
+                width: '0px'
             },
             out : {
                 display : 'inline',
                 left    : '0%',
                 width   : 'auto'
-            } 
+            }
         }
         return setMarkdownEditorCss(style)
     });
@@ -258,13 +263,13 @@ $(document).ready(function() {
     $("#btn-save").click(function() {
         var noteTitle = $('#note-title')
         if(!noteTitle.val()){
-            return alert("노트의 제목을 입력해 주세요")    
+            return alert("노트의 제목을 입력해 주세요.")
         }
 
         if(noteTitle.val() === '모든 노트'){
             noteTitle.val('')
             return alert("'모든 노트'는 노트의 제목이 될 수 없습니다.")
-        } 
+        }
 
         return saveNote()
         // showselected();
