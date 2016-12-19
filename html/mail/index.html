@@ -165,7 +165,6 @@
                                         <div id="notelist" class="list-group list-email list-gray">
                                         </div>
                                     </div>
-                                    
                                     <!--end .list-group -->
                                 </div>
                                 <!--end .col -->
@@ -173,34 +172,23 @@
                                 <script>
                                 var app = angular.module('myApp', []);
                                 app.controller('noteCtrl', function($scope, $http, $compile) {
-
                                     // $scope.$watch('$viewContentLoaded', function() {
-
-                                    //    // alert('3');
+                                    // alert('3');
                                     console.log('start');
-                                    // });
                                     $scope.$watch('$viewContentLoaded', function() {
-
                                         console.log('loaded');
                                         // var $elem = angular.element("#note-title");
                                         // $elem.replaceWith($compile($elem)($scope));
                                     });
-
-
                                     $scope.noteclick = function(data) {
-
                                         //read file
                                         var dir = __dirname + '/devfolder/f';
                                         file = dir + '/' + data + '.json';
-
                                         // var fs = require('fs');
                                         // var obj = JSON.parse(fs.readFileSync('file', 'utf8'));
                                         var editor = document.getElementById("markdown-editor").contentWindow.editor;
                                         editor.setValue('this: ' + file);
-
                                     };
-
-
                                 });
                                 </script>
                                 <div class="col-sm-12 col-md-9 col-lg-5">
@@ -305,7 +293,7 @@
                     <li>
                         <a href="../../html/mail/index.html">
                             <div class="gui-icon"><i class="md md-home"></i></div>
-                            <span class="title">Dashboard</span>
+                            <span class="title">Main Page</span>
                         </a>
                     </li>
                     <!--end /menu-li -->
@@ -314,14 +302,14 @@
                     <li class="gui-folder">
                         <a>
                             <div class="gui-icon"><span class="glyphicon glyphicon-list-alt"></span></div>
-                            <span class="title">Notes</span>
+                            <span class="title">Notebooks</span>
                         </a>
                         <!--start submenu -->
-                        <ul>
+                        <ul id="menu-notebook-list">
                             <li><a href="#" class="active"><span class="title">Notes</span></a></li>
                             <li><a href="#"><span class="title">Recent</span></a></li>
-                            <li><a href="#"><span class="title">Important</span></a></li>
-                            <li><a href="#"><span class="title">Trash</span></a></li>
+                            <!-- <li><a href="#"><span class="title">Important</span></a></li>
+                            <li><a href="#"><span class="title">Trash</span></a></li> -->
                         </ul>
                         <!--end /submenu -->
                     </li>
@@ -331,7 +319,7 @@
                     <li class="gui-folder">
                         <a>
                             <div class="gui-icon"><i class="fa fa-folder-open fa-fw"></i></div>
-                            <span class="title">Folders</span>
+                            <span class="title">Recent</span>
                         </a>
                         <!--start submenu -->
                         <ul>
