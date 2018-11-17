@@ -1,4 +1,4 @@
-#DevNote <img src="ui/app_icon256.png" width="80" />
+# DevNote <img src="ui/app_icon256.png" width="80" />
 
 DevNote는 마크다운 문서와 파일(.c, .java ...)을 합친 새로운 형태의 에디터이다.
 
@@ -20,7 +20,7 @@ Sublime Text와 같은 에디터와 같이 코드 Syntax highlighting을 주어 
 4. 코드 추출
 주석 기능을 하는 메모와 코드를 분리하여 한 눈에 코드를 확인한다. 추출 된 코드는 로컬이나 구글드라이브로 바로 저장할 수 있다.
 
-##DevNote의 장점
+## DevNote의 장점
 1. 코드의 가독성을 높일 수 있다.
 기존 코드에서 마크다운을 추가로 사용할 수 있어 높은 가독성을 제공한다.
 
@@ -32,14 +32,14 @@ Sublime Text와 같은 에디터와 같이 코드 Syntax highlighting을 주어 
 4. 검색/Git
 plain text 기반이기 때문에 검색과 git을 사용하는데 문제가 없다. 
 
-##UI
-####1.노트
+## UI
+#### 1.노트
 <img src="ui/a.main.png" width="500" />
 ---
-####2.문서 편집
+#### 2.문서 편집
 <img src="ui/c.doc.png" width="500" />
 ---
-####3.소스코드 편집
+#### 3.소스코드 편집
 <img src="ui/e.code2.png" width="500" />
 
 ##시연 영상
@@ -48,10 +48,10 @@ plain text 기반이기 때문에 검색과 git을 사용하는데 문제가 없
 https://youtu.be/oTkC63m_qcw
 ```
 
-##개발
+## 개발
 DevNote는 [`Electron`](https://github.com/atom/electron) 프레임 워크를 사용하여 크로스 플랫폼 데스크탑 어플리케이션을 개발 하였다. 그 외에도 아래의 오픈소스들을 이용하였다.
 
-##Open Source License
+## Open Source License
 **[electron](https://github.com/atom/electron)**
 >Copyright (c) 2015 GitHub Inc.
 License: MIT
@@ -76,10 +76,10 @@ License: Apache 2.0
 License: Dual licensed under the MIT (see below) and GPL licenses
 
 
-##향후 계획
+## 향후 계획
 추후 계정 설정 및 공유가 가능하도록 만들 계획이다.
 
-##시작하기
+## 시작하기
 Clone and run the code in this tutorial by using the [`KUflower/Devnote`](https://github.com/KUflower/Devnote)
 repository.
 **Note**: Running this requires [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which includes [npm](https://npmjs.org)) on your system.
@@ -93,5 +93,5 @@ $ cd Devnote/devnoteproj
 $ npm install && npm start
 ```
 
-##License
+## License
 The source code is licensed under GPL v3. License is available [here](https://github.com/KUflower/Devnote/blob/master/LICENSE).
